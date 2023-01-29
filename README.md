@@ -28,13 +28,15 @@ modified, and then executes a wrapped executable.
 
 Save the following to `Dockerfile`:
 
-```
+```dockerfile
 FROM python:3
 
-RUN apt-get update; apt-get install -y jq
+RUN apt-get update; apt-get install -y jq curl
 
 # Download the latest version of udl
-RUN curl -s https://api.github.com/repos/mcasperson/UltimateDockerLauncher/releases/latest | jq '.assets[] | select(.name|match("udl$")) | .browser_download_url' | xargs -I {} curl -L -o /opt/udl {}
+RUN curl -s https://api.github.com/repos/mcasperson/UltimateDockerLauncher/releases/latest | \
+    jq '.assets[] | select(.name|match("udl$")) | .browser_download_url' | \
+    xargs -I {} curl -L -o /opt/udl {}
 RUN chmod +x /opt/udl
 
 # UDL_WRITEFILE[filename] environment variables are used to save files
@@ -50,6 +52,29 @@ print(f.read())' >> /app/main.py
 # The entrypoint or CMD is set to udl. The first argument is the application to run. The second and all subsequent
 # arguments are passed to the application defined in the first argument.
 CMD [ "/opt/udl", "python", "/app/main.py" ]
+```
+
+Here is another example Dockerfile using UDL with Apache, this time using bash to execute UDL before the main app:
+
+```dockerfile
+FROM httpd:2.4
+
+RUN apt-get update; apt-get install -y jq curl
+
+# Download the latest version of udl
+RUN curl -s https://api.github.com/repos/mcasperson/UltimateDockerLauncher/releases/latest | \
+    jq '.assets[] | select(.name|match("udl$")) | .browser_download_url' | \
+    xargs -I {} curl -L -o /opt/udl {}
+RUN chmod +x /opt/udl
+
+# UDL_WRITEFILE[filename] environment variables are used to save files
+ENV UDL_WRITEFILE[/usr/local/apache2/htdocs/config.json]='{"whatever": ["hello"]}'
+
+# UDL_SETVALUE[file][key] environment variables are used to set values inside configuration files like JSON, YAML, INI etc
+ENV UDL_SETVALUE[/usr/local/apache2/htdocs/config.json][whatever:0]="world"
+
+# Here we use bash to call UDL before calling the main application
+CMD [ "/bin/bash", "-c", "/opt/udl; httpd-foreground" ]
 ```
 
 Build the image with:

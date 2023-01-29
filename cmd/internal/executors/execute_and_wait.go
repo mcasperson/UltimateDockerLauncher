@@ -4,7 +4,9 @@ import (
 	"context"
 	"os"
 	"os/exec"
+	"os/signal"
 	"runtime"
+	"syscall"
 	"time"
 )
 
@@ -60,11 +62,16 @@ func (e ExecuteAndWait) wait(ctx context.Context, cmd *exec.Cmd, interrupt os.Si
 		panic("waitOrStop requires a non-nil interrupt signal")
 	}
 
+	cancelChan := make(chan os.Signal, 1)
+	// catch SIGETRM or SIGINTERRUPT
+	signal.Notify(cancelChan, syscall.SIGTERM, syscall.SIGINT)
+
 	errc := make(chan error)
 	go func() {
 		select {
 		case errc <- nil:
 			return
+		case interrupt = <-cancelChan:
 		case <-ctx.Done():
 		}
 
