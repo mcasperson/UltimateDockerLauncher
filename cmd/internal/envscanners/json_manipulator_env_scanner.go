@@ -5,6 +5,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/stringutil"
 	"github.com/rs/zerolog/log"
+	"regexp"
 	"strings"
 )
 
@@ -20,7 +21,9 @@ func (f ManipulatorEnvScanner) ProcessEnvVars() error {
 			key := e[:i]
 			value := e[i+1:]
 
-			if strings.HasPrefix(key, "UDL_SETVALUE[") && strings.HasSuffix(key, "]") {
+			match, _ := regexp.MatchString("UDL_SETVALUE\\[[^\\[\\]]+]\\[[^\\[\\]]+]", key)
+
+			if match {
 				file := stringutil.Substr(key, len("UDL_SETVALUE["), strings.Index(key, "]")-len("UDL_SETVALUE["))
 				path := stringutil.Substr(key, strings.Index(key, "][")+2, len(key)-strings.Index(key, "][")-3)
 
