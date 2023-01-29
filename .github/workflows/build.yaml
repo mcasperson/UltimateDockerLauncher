@@ -61,6 +61,6 @@ jobs:
           path: results.xml
           reporter: java-junit
           fail-on-error: 'false'
-      - run: go build
+      - run: go build -o udl cmd/main.go
         env:
           CGO_ENABLED: 0
