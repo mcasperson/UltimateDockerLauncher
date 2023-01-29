@@ -1,68 +1,68 @@
 package manipulators
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
+	"gopkg.in/yaml.v3"
 	"testing"
 )
 
-func TestInvalidFile(t *testing.T) {
-	jsonExample := "{whatever:\"value\"}"
+func TestYamlInvalidFile(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
 	if manipulator.CanManipulate("/etc/config.doesnotexist") {
-		t.Fatal("Must be able to manipulate JSON files")
+		t.Fatal("This should have failed")
 	}
 }
 
-func TestInvalidJson(t *testing.T) {
-	jsonExample := "{whatever:\"value\"}"
+func TestYamlInvalidJson(t *testing.T) {
+	yamlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 }
 
-func TestSetInvalidFile(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetInvalidFile(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
@@ -73,57 +73,57 @@ func TestSetInvalidFile(t *testing.T) {
 	}
 }
 
-func TestSetInvalidJson(t *testing.T) {
-	jsonExample := "{whatever:\"value\"}"
+func TestYamlSetInvalidJson(t *testing.T) {
+	yamlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "newvalue")
 
 	if err == nil {
 		t.Fatal("This should have failed")
 	}
 }
 
-func TestSetJsonStringField(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetStringField(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "newvalue")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -136,39 +136,39 @@ func TestSetJsonStringField(t *testing.T) {
 	}
 }
 
-func TestSetJsonNumberField(t *testing.T) {
-	jsonExample := "{\"whatever\":5}"
+func TestYamlSetNumberField(t *testing.T) {
+	yamlExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "6")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "6")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
-	value, ok := result["whatever"].(float64)
+	value, ok := result["whatever"].(int)
 
 	if !ok {
-		t.Fatal("Value must be a float")
+		t.Fatal("Value must be a int")
 	}
 
 	if value != 6 {
@@ -176,34 +176,34 @@ func TestSetJsonNumberField(t *testing.T) {
 	}
 }
 
-func TestSetJsonNumberFieldWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":5}"
+func TestYamlSetNumberFieldWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "newvalue")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -216,39 +216,39 @@ func TestSetJsonNumberFieldWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonBoolField(t *testing.T) {
-	jsonExample := "{\"whatever\":true}"
+func TestYamlSetBoolField(t *testing.T) {
+	yamlExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "false")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "false")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(bool)
 
 	if !ok {
-		t.Fatal("Value must be a float")
+		t.Fatal("Value must be a bool")
 	}
 
 	if value {
@@ -256,34 +256,34 @@ func TestSetJsonBoolField(t *testing.T) {
 	}
 }
 
-func TestSetJsonBoolFieldWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":true}"
+func TestYamlSetBoolFieldWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "newvalue")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -296,34 +296,34 @@ func TestSetJsonBoolFieldWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonObjectField(t *testing.T) {
-	jsonExample := "{\"whatever\":{\"whatever2\":true}}"
+func TestYamlSetObjectField(t *testing.T) {
+	yamlExample := "whatever:\n  whatever2: true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "{\"whatever3\":6}")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "whatever3: 6")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(map[string]any)
 
@@ -331,10 +331,10 @@ func TestSetJsonObjectField(t *testing.T) {
 		t.Fatal("Value must be a map")
 	}
 
-	value2, ok := value["whatever3"].(float64)
+	value2, ok := value["whatever3"].(int)
 
 	if !ok {
-		t.Fatal("Nested Value must be a map")
+		t.Fatal("Nested Value must be a int")
 	}
 
 	if value2 != 6 {
@@ -342,34 +342,34 @@ func TestSetJsonObjectField(t *testing.T) {
 	}
 }
 
-func TestSetJsonObjectFieldWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":{\"whatever2\":true}}"
+func TestYamlSetObjectFieldWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":{\"whatever2\":true}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "newvalue")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -382,34 +382,34 @@ func TestSetJsonObjectFieldWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayField(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayField(t *testing.T) {
+	yamlExample := "whatever: [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "[\"there\"]")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "[\"there\"]")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -428,34 +428,34 @@ func TestSetJsonArrayField(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayFieldWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever", "there")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -468,34 +468,34 @@ func TestSetJsonArrayFieldWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayFieldWithArray(t *testing.T) {
-	jsonExample := "{\"whatever\":[[\"hi\"]]}"
+func TestYamlSetArrayFieldWithArray(t *testing.T) {
+	yamlExample := "{\"whatever\":[[\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "[\"there\"]")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "[\"there\"]")
 
 	if err != nil {
-		t.Fatal("Failed to manipulate JSON file")
+		t.Fatal("Failed to manipulate YAML file")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -514,34 +514,34 @@ func TestSetJsonArrayFieldWithArray(t *testing.T) {
 	}
 }
 
-func TestSetJsonNewField(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetNewField(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever2", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever2", "newvalue")
 
 	if err != nil {
 		t.Fatal("Failed to perform replacement")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -553,34 +553,34 @@ func TestSetJsonNewField(t *testing.T) {
 	}
 }
 
-func TestSetJsonNewNumberField(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetNewNumberField(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever2", "5")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever2", "5")
 
 	if err != nil {
 		t.Fatal("Failed to perform replacement")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -592,34 +592,34 @@ func TestSetJsonNewNumberField(t *testing.T) {
 	}
 }
 
-func TestSetJsonNewBooleanField(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetNewBooleanField(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever2", "true")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever2", "true")
 
 	if err != nil {
 		t.Fatal("Failed to perform replacement")
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -631,34 +631,34 @@ func TestSetJsonNewBooleanField(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayFieldIndex(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldIndex(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "there")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -677,34 +677,34 @@ func TestSetJsonArrayFieldIndex(t *testing.T) {
 	}
 }
 
-func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
-	jsonExample := "{\"whatever\":[10]}"
+func TestYamlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
+	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "20")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "20")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -712,10 +712,10 @@ func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
 		t.Fatal("Value must be an array")
 	}
 
-	value2, ok := value[0].(float64)
+	value2, ok := value[0].(int)
 
 	if !ok {
-		t.Fatal("Nested Value must be a string")
+		t.Fatal("Nested Value must be a int")
 	}
 
 	if value2 != 20 {
@@ -723,115 +723,115 @@ func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayFieldIndexOutOfBounds(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldIndexOutOfBounds(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:10", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:10", "there")
 
 	if err == nil {
 		t.Fatal("This should have failed")
 	}
 }
 
-func TestSetJsonArrayFieldAgainstObject(t *testing.T) {
-	jsonExample := "{\"whatever\":{\"hi\":\"there\"}}"
+func TestYamlSetArrayFieldAgainstObject(t *testing.T) {
+	yamlExample := "{\"whatever\":{\"hi\":\"there\"}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:10", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:10", "there")
 
 	if err == nil {
 		t.Fatal("This should have failed")
 	}
 }
 
-func TestSetJsonArrayFieldDoubleIndex(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldDoubleIndex(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0:0", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0:0", "there")
 
 	if err == nil {
 		t.Fatal("This should have failed")
 	}
 }
 
-func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldIndexWithNumber(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "10")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "10")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -850,34 +850,34 @@ func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
-	jsonExample := "{\"whatever\":[\"hi\"]}"
+func TestYamlSetArrayFieldIndexWithBool(t *testing.T) {
+	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "true")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "true")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -896,34 +896,34 @@ func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
 	}
 }
 
-func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
-	jsonExample := "{\"whatever\":[10]}"
+func TestYamlSetIntArrayFieldIndexWithInt(t *testing.T) {
+	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "20")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "20")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -931,7 +931,7 @@ func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
 		t.Fatal("Value must be an array")
 	}
 
-	value2, ok := value[0].(float64)
+	value2, ok := value[0].(int)
 
 	if !ok {
 		t.Fatal("Nested Value must be a number")
@@ -942,34 +942,34 @@ func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
 	}
 }
 
-func TestSetJsonIntArrayFieldIndexWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":[10]}"
+func TestYamlSetIntArrayFieldIndexWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "blah")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "blah")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -988,34 +988,34 @@ func TestSetJsonIntArrayFieldIndexWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
-	jsonExample := "{\"whatever\":[true]}"
+func TestYamlSetBoolArrayFieldIndexWithBool(t *testing.T) {
+	yamlExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "false")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "false")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1034,34 +1034,34 @@ func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
 	}
 }
 
-func TestSetJsonBoolArrayFieldIndexWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":[true]}"
+func TestYamlSetBoolArrayFieldIndexWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "blah")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "blah")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1080,34 +1080,34 @@ func TestSetJsonBoolArrayFieldIndexWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
-	jsonExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
+func TestYamlSetObjectArrayFieldIndexWithObject(t *testing.T) {
+	yamlExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "{\"whatever3\":\"there\"}")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "{\"whatever3\":\"there\"}")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1126,34 +1126,34 @@ func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
 	}
 }
 
-func TestSetJsonObjectArrayFieldIndexWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
+func TestYamlSetObjectArrayFieldIndexWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "there")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1172,34 +1172,34 @@ func TestSetJsonObjectArrayFieldIndexWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayArrayFieldIndexWithArray(t *testing.T) {
-	jsonExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
+func TestYamlSetArrayArrayFieldIndexWithArray(t *testing.T) {
+	yamlExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "[\"whatever3\",\"there\"]")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "[\"whatever3\",\"there\"]")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1218,34 +1218,34 @@ func TestSetJsonArrayArrayFieldIndexWithArray(t *testing.T) {
 	}
 }
 
-func TestSetJsonArrayArrayFieldIndexWithString(t *testing.T) {
-	jsonExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
+func TestYamlSetArrayArrayFieldIndexWithString(t *testing.T) {
+	yamlExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:0", "there")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:0", "there")
 
 	if err != nil {
 		t.Fatal("Failed to manipulate JSON file: " + err.Error())
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1264,27 +1264,27 @@ func TestSetJsonArrayArrayFieldIndexWithString(t *testing.T) {
 	}
 }
 
-func TestSetJsonMissingNestedField(t *testing.T) {
-	jsonExample := "{\"whatever\":\"value\"}"
+func TestYamlSetMissingNestedField(t *testing.T) {
+	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.json": jsonExample,
+			"/etc/config.yaml": yamlExample,
 		},
 	}
-	manipulator := JsonManipulator{
+	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
 		MapManipulator: CommonMapManipulator{
-			Unmarshaller: JsonUnmarshaller{},
+			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
 
-	if !manipulator.CanManipulate("/etc/config.json") {
-		t.Fatal("Must be able to manipulate JSON files")
+	if !manipulator.CanManipulate("/etc/config.yaml") {
+		t.Fatal("Must be able to manipulate YAML files")
 	}
 
-	err := manipulator.SetValue("/etc/config.json", "whatever:whatever2", "newvalue")
+	err := manipulator.SetValue("/etc/config.yaml", "whatever:whatever2", "newvalue")
 
 	if err == nil {
 		t.Fatal("Should have failed to perform replacement")

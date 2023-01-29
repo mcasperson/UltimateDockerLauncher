@@ -34,8 +34,9 @@ func main() {
 	var jsonManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
 		Manipulator: manipulators.JsonManipulator{
-			Writer: writer,
-			Reader: reader,
+			Writer:         writer,
+			Reader:         reader,
+			MapManipulator: manipulators.CommonMapManipulator{},
 		},
 	}
 

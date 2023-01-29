@@ -100,7 +100,7 @@ the file `/etc/myapp/config.json` during initialization.
 UDL understands a number of file formats, including:
 
 * JSON
-* YAML (Planned)
+* YAML
 * XML (Planned)
 * INI (Planned)
 

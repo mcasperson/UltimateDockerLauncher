@@ -26,6 +26,9 @@ func TestJsonManipulation(t *testing.T) {
 		Manipulator: manipulators.JsonManipulator{
 			Reader: reader,
 			Writer: &writer,
+			MapManipulator: manipulators.CommonMapManipulator{
+				Unmarshaller: manipulators.JsonUnmarshaller{},
+			},
 		},
 	}
 
