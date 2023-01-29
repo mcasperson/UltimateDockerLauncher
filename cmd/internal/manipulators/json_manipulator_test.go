@@ -614,6 +614,135 @@ func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
 	}
 }
 
+func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
+	jsonExample := "{\"whatever\":[\"hi\"]}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:0", "true")
+
+	if err != nil {
+		t.Fatal("Failed to manipulate JSON file: " + err.Error())
+	}
+
+	var result map[string]any
+	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+
+	value, ok := result["whatever"].([]any)
+
+	if !ok {
+		t.Fatal("Value must be an array")
+	}
+
+	value2, ok := value[0].(string)
+
+	if !ok {
+		t.Fatal("Nested Value must be a string")
+	}
+
+	if value2 != "true" {
+		t.Fatal("Nested value must be set to \"true\" (was: \"" + fmt.Sprint(value2) + "\"")
+	}
+}
+
+func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
+	jsonExample := "{\"whatever\":[true]}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:0", "false")
+
+	if err != nil {
+		t.Fatal("Failed to manipulate JSON file: " + err.Error())
+	}
+
+	var result map[string]any
+	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+
+	value, ok := result["whatever"].([]any)
+
+	if !ok {
+		t.Fatal("Value must be an array")
+	}
+
+	value2, ok := value[0].(bool)
+
+	if !ok {
+		t.Fatal("Nested Value must be a bool")
+	}
+
+	if value2 {
+		t.Fatal("Nested value must be set to false (was: \"" + fmt.Sprint(value2) + "\"")
+	}
+}
+
+func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
+	jsonExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:0", "{\"whatever3\":\"there\"}")
+
+	if err != nil {
+		t.Fatal("Failed to manipulate JSON file: " + err.Error())
+	}
+
+	var result map[string]any
+	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+
+	value, ok := result["whatever"].([]any)
+
+	if !ok {
+		t.Fatal("Value must be an array")
+	}
+
+	value2, ok := value[0].(map[string]any)
+
+	if !ok {
+		t.Fatal("Nested Value must be a map")
+	}
+
+	if value2["whatever3"] != "there" {
+		t.Fatal("Nested value must be set to \"there\" (was: \"" + fmt.Sprint(value2) + "\"")
+	}
+}
+
 func TestSetJsonMissingNestedField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
