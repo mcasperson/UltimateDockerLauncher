@@ -31,8 +31,13 @@ Save the following to `Dockerfile`:
 FROM python:3
 
 COPY udl /opt
-ENV UDL_LOGGING_LEVEL=debug
-ENV UDL_WRITEFILE[/app/main.py]="print('hi')"
+
+ENV UDL_WRITEFILE[/app/config.json]='{"whatever": "hello"}'
+ENV UDL_SETVALUE[/app/config.json][whatever]="world"
+
+RUN mkdir /app
+RUN printf 'f = open("/app/config.json", "r") \n\
+print(f.read())' >> /app/main.py
 
 CMD [ "/opt/udl", "python", "/app/main.py" ]
 ```
