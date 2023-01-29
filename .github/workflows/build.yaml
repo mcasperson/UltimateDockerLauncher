@@ -1,3 +1,8 @@
+permissions:
+  id-token: write
+  contents: read
+  checks: write
+
 name: Go Build
 'on':
   workflow_dispatch: {}
