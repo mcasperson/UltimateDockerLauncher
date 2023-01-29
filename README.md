@@ -1,6 +1,6 @@
 # Ultimate Docker Launcher
 
-Customizing configuration files for an environment can be a pain with legacy applications that do not have the ability
+Customizing Docker configuration files for an environment can be a pain with legacy applications that do not have the ability
 to be fully configured via environment variables. Some container orchestration platforms, like Kubernetes, provide
 the limited ability to mount files at runtime without the need to expose a complete networked file system. Platforms
 like ECS only allow files to be mounted from file systems like EFS. Other more basic container platforms like
@@ -17,6 +17,36 @@ default configuration files that are optionally customized.
 Ultimate Docker Launcher provides the ability to write or modify configuration files during container initialization.
 It works by scanning environment variables for known patterns indicating files that need to be (over)written or
 modified, and then executes a wrapped executable.
+
+## Quick Env Var Reference
+
+* `UDL_WRITEFILE[FILENAME]`: Writes a file e.g. `UDL_WRITEFILE[/etc/myapp/config.json]`
+* `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]`
+
+## Docker CMD Example
+
+Save the following to `Dockerfile`:
+
+```
+FROM python:3
+
+COPY udl /opt
+ENV UDL_WRITEFILE[/app/main.py]="print('hi')"
+
+CMD [ "/opt/udl", "python", "/app/main.py" ]
+```
+
+Build the image with:
+
+```bash
+docker build . -t udltest
+```
+
+Run the image with:
+
+```bash
+docker run udltest
+```
 
 ## Writing files
 
