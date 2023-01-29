@@ -1,9 +1,9 @@
 package envscanners
 
 import (
-	"fmt"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
+	"github.com/rs/zerolog/log"
 	"strings"
 )
 
@@ -22,8 +22,8 @@ func (f FileWriterEnvScanner) ProcessEnvVars() error {
 			if strings.HasPrefix(key, "UDL_WRITEFILE[") && strings.HasSuffix(key, "]") {
 				file := strings.TrimLeft(strings.TrimRight(key, "]"), "UDL_WRITEFILE[")
 
-				fmt.Println("Writing file " + file + "with content:")
-				fmt.Println(value)
+				log.Debug().Msg("Writing file " + file + "with content:")
+				log.Debug().Msg(value)
 
 				err := f.Writer.WriteString(file, value)
 

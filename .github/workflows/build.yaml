@@ -57,3 +57,5 @@ jobs:
           reporter: java-junit
           fail-on-error: 'false'
       - run: go build
+        env:
+          CGO_ENABLED: 0

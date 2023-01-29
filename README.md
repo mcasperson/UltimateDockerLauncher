@@ -31,6 +31,7 @@ Save the following to `Dockerfile`:
 FROM python:3
 
 COPY udl /opt
+ENV UDL_LOGGING_LEVEL=debug
 ENV UDL_WRITEFILE[/app/main.py]="print('hi')"
 
 CMD [ "/opt/udl", "python", "/app/main.py" ]
