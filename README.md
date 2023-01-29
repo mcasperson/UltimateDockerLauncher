@@ -31,18 +31,24 @@ Save the following to `Dockerfile`:
 ```
 FROM python:3
 
-RUN apt-get update; apt-get install jq
+RUN apt-get update; apt-get install -y jq
 
 # Download the latest version of udl
-RUN cd /opt; curl -s https://api.github.com/repos/username/projectname/releases/latest | jq '.assets[] | select(.name|match("udl$")) | .browser_download_url'
+RUN curl -s https://api.github.com/repos/mcasperson/UltimateDockerLauncher/releases/latest | jq '.assets[] | select(.name|match("udl$")) | .browser_download_url' | xargs -I {} curl -L -o /opt/udl {}
+RUN chmod +x /opt/udl
 
-ENV UDL_WRITEFILE[/app/config.json]='{"whatever": "hello"}'
-ENV UDL_SETVALUE[/app/config.json][whatever]="world"
+# UDL_WRITEFILE[filename] environment variables are used to save files
+ENV UDL_WRITEFILE[/app/config.json]='{"whatever": ["hello"]}'
+
+# UDL_SETVALUE[file][key] environment variables are used to set values inside configuration files like JSON, YAML, INI etc
+ENV UDL_SETVALUE[/app/config.json][whatever:0]="world"
 
 RUN mkdir /app
 RUN printf 'f = open("/app/config.json", "r") \n\
 print(f.read())' >> /app/main.py
 
+# The entrypoint or CMD is set to udl. The first argument is the application to run. The second and all subsequent
+# arguments are passed to the application defined in the first argument.
 CMD [ "/opt/udl", "python", "/app/main.py" ]
 ```
 
