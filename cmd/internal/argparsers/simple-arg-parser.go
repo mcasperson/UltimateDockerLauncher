@@ -5,6 +5,10 @@ import "os"
 type SimpleArgParser struct {
 }
 
+func (a SimpleArgParser) HasExecutable() bool {
+	return len(os.Args) > 1
+}
+
 func (a SimpleArgParser) GetExecutable() string {
 	return os.Args[1]
 }

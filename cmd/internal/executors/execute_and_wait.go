@@ -26,6 +26,20 @@ func (e ExecuteAndWait) Execute(executable string, args []string) error {
 	return nil
 }
 
+func (e ExecuteAndWait) ExitCode(err error) int {
+	if err != nil {
+		if exiterr, ok := err.(*exec.ExitError); ok {
+			return exiterr.ExitCode()
+		} else {
+			// there was an error, but we couldn't get the exit code
+			// assume we want to return a non-zero exit code in this case
+			return 1
+		}
+	}
+
+	return 0
+}
+
 // stopSignal returns the appropriate signal to use to request that a process
 // stop execution.
 func stopSignal() os.Signal {
