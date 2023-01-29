@@ -22,7 +22,7 @@ func (f FileWriterEnvScanner) ProcessEnvVars() error {
 			if strings.HasPrefix(key, "UDL_WRITEFILE[") && strings.HasSuffix(key, "]") {
 				file := strings.TrimLeft(strings.TrimRight(key, "]"), "UDL_WRITEFILE[")
 
-				log.Debug().Msg("Writing file " + file + "with content:")
+				log.Debug().Msg("Writing file \"" + file + "\" with content:")
 				log.Debug().Msg(value)
 
 				err := f.Writer.WriteString(file, value)
