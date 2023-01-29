@@ -30,7 +30,10 @@ Save the following to `Dockerfile`:
 ```
 FROM python:3
 
-COPY udl /opt
+RUN apt-get update; apt-get install jq
+
+# Download the latest version of udl
+RUN cd /opt; curl -s https://api.github.com/repos/username/projectname/releases/latest | jq '.assets[] | select(.name|match("udl$")) | .browser_download_url'
 
 ENV UDL_WRITEFILE[/app/config.json]='{"whatever": "hello"}'
 ENV UDL_SETVALUE[/app/config.json][whatever]="world"
