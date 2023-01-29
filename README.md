@@ -73,7 +73,13 @@ UDL understands a number of file formats, including:
 * INI (Planned)
 
 The values assigned to the environment variables in the format `UDL_SETVALUE[FILENAME][KEY]`  are inserted into the file
-`FILENAME` creating or overwriting the value found at `KEY`. the format of `KEY` depends on the file being edited.
+`FILENAME` creating or overwriting the value found at `KEY`. 
+
+The format of `KEY` depends on the file being edited:
+
+* JSON, YAML: Key is a colon seperated path e.g. `first` or `first:second`
+* XML: Key is an xpath
+* INI: Key is a colon separated path with optional group e.g. `value` or `group:value`
 
 For example, given a JSON file like this at `/etc/myapp/config.json`
 
