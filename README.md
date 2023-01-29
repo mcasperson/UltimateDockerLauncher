@@ -84,21 +84,22 @@ The values assigned to the environment variables in the format `UDL_SETVALUE[FIL
 
 The format of `KEY` depends on the file being edited:
 
-* JSON, YAML: Key is a colon seperated path e.g. `first` or `first:second`
+* JSON, YAML: Key is a colon seperated path e.g. `first` or `first:second`. Integer values are used to index into an array e.g. `first:second:0`.
 * XML: Key is an xpath
 * INI: Key is a colon separated path with optional group e.g. `value` or `group:value`
 
-For example, given a JSON file like this at `/etc/myapp/config.json`
+For example, given a JSON file like this at `/etc/myapp/config.json`:
 
 ```
 {
     "entry1": "value1"
     "entry2": {
-        "entry3": "value3"
-    }
+        "entry3": "value2"
+    },
+    "entry4": ["value3", "value4"]
 }
 ```
 
-UDL will overwrite the value for the property `entry1` with the value in the environment variable
-`UDL_SETVALUE[/etc/myapp/config.json][entry1]` and overwrite the value for the property `entry2.entry3` with the value 
-in the environment variable `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]`.
+* `UDL_SETVALUE[/etc/myapp/config.json][entry1]` replaces `value1`
+* `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` replaces `value2`
+* `UDL_SETVALUE[/etc/myapp/config.json][entry4:1]` replaces `value4`
