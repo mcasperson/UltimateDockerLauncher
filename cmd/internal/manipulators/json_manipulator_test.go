@@ -353,6 +353,49 @@ func TestSetJsonArrayFieldWithString(t *testing.T) {
 	}
 }
 
+func TestSetJsonArrayFieldWithArray(t *testing.T) {
+	jsonExample := "{\"whatever\":[[\"hi\"]]}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:0", "[\"there\"]")
+
+	if err != nil {
+		t.Fatal("Failed to manipulate JSON file")
+	}
+
+	var result map[string]any
+	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+
+	value, ok := result["whatever"].([]any)
+
+	if !ok {
+		t.Fatal("Value must be an array")
+	}
+
+	value2, ok := value[0].([]any)
+
+	if !ok {
+		t.Fatal("Nested value must be an array")
+	}
+
+	if value2[0] != "there" {
+		t.Fatal("Nested value must be set to \"there\" (was: \"" + fmt.Sprint(value) + "\"")
+	}
+}
+
 func TestSetJsonNewField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
@@ -565,6 +608,54 @@ func TestSetJsonArrayFieldIndexOutOfBounds(t *testing.T) {
 	}
 
 	err := manipulator.SetValue("/etc/config.json", "whatever:10", "there")
+
+	if err == nil {
+		t.Fatal("This should have failed")
+	}
+}
+
+func TestSetJsonArrayFieldAgainstObject(t *testing.T) {
+	jsonExample := "{\"whatever\":{\"hi\":\"there\"}}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:10", "there")
+
+	if err == nil {
+		t.Fatal("This should have failed")
+	}
+}
+
+func TestSetJsonArrayFieldDoubleIndex(t *testing.T) {
+	jsonExample := "{\"whatever\":[\"hi\"]}"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.json": jsonExample,
+		},
+	}
+	manipulator := JsonManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.json") {
+		t.Fatal("Must be able to manipulate JSON files")
+	}
+
+	err := manipulator.SetValue("/etc/config.json", "whatever:0:0", "there")
 
 	if err == nil {
 		t.Fatal("This should have failed")
