@@ -1,4 +1,4 @@
-package manipulators
+package jsonmanipulators
 
 import "encoding/json"
 

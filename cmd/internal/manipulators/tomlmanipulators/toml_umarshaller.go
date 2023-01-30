@@ -1,4 +1,4 @@
-package manipulators
+package tomlmanipulators
 
 import "github.com/pelletier/go-toml/v2"
 

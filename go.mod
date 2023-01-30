@@ -3,6 +3,7 @@ module github.com/mcasperson/UltimateDockerLauncher
 go 1.18
 
 require (
+	git.giaever.org/joachimmg/go-ini.git v0.0.0-20170929080802-e53f896285d6
 	github.com/pelletier/go-toml/v2 v2.0.6
 	github.com/rs/zerolog v1.29.0
 	gopkg.in/yaml.v3 v3.0.1

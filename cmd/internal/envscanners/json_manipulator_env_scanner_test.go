@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/jsonmanipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"testing"
@@ -23,11 +24,11 @@ func TestJsonManipulation(t *testing.T) {
 				"UDL_SETVALUE[/etc/myapp/config.json][whatever]": "world",
 			},
 		},
-		Manipulator: manipulators.JsonManipulator{
+		Manipulator: jsonmanipulators.JsonManipulator{
 			Reader: reader,
 			Writer: &writer,
 			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: manipulators.JsonUnmarshaller{},
+				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
 			},
 		},
 	}

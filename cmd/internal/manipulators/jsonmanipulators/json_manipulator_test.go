@@ -1,8 +1,9 @@
-package manipulators
+package jsonmanipulators
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"testing"
@@ -19,7 +20,7 @@ func TestInvalidFile(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -40,7 +41,7 @@ func TestInvalidJson(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -61,7 +62,7 @@ func TestSetInvalidFile(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -84,7 +85,7 @@ func TestSetInvalidJson(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -107,7 +108,7 @@ func TestSetJsonStringField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -147,7 +148,7 @@ func TestSetJsonNumberField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -187,7 +188,7 @@ func TestSetJsonNumberFieldWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -227,7 +228,7 @@ func TestSetJsonBoolField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -267,7 +268,7 @@ func TestSetJsonBoolFieldWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -307,7 +308,7 @@ func TestSetJsonObjectField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -353,7 +354,7 @@ func TestSetJsonObjectFieldWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -393,7 +394,7 @@ func TestSetJsonArrayField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -439,7 +440,7 @@ func TestSetJsonArrayFieldWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -479,7 +480,7 @@ func TestSetJsonArrayFieldWithArray(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -525,7 +526,7 @@ func TestSetJsonNewField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -564,7 +565,7 @@ func TestSetJsonNewNumberField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -603,7 +604,7 @@ func TestSetJsonNewBooleanField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -642,7 +643,7 @@ func TestSetJsonArrayFieldIndex(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -688,7 +689,7 @@ func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -734,7 +735,7 @@ func TestSetJsonArrayFieldIndexOutOfBounds(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -761,7 +762,7 @@ func TestSetJsonArrayFieldAgainstObject(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -788,7 +789,7 @@ func TestSetJsonArrayFieldDoubleIndex(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -815,7 +816,7 @@ func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -861,7 +862,7 @@ func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -907,7 +908,7 @@ func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -953,7 +954,7 @@ func TestSetJsonIntArrayFieldIndexWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -999,7 +1000,7 @@ func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1045,7 +1046,7 @@ func TestSetJsonBoolArrayFieldIndexWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1091,7 +1092,7 @@ func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1137,7 +1138,7 @@ func TestSetJsonObjectArrayFieldIndexWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1183,7 +1184,7 @@ func TestSetJsonArrayArrayFieldIndexWithArray(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1229,7 +1230,7 @@ func TestSetJsonArrayArrayFieldIndexWithString(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}
@@ -1275,7 +1276,7 @@ func TestSetJsonMissingNestedField(t *testing.T) {
 	manipulator := JsonManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: JsonUnmarshaller{},
 		},
 	}

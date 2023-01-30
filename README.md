@@ -101,6 +101,7 @@ UDL understands a number of file formats, including:
 
 * JSON
 * YAML
+* TOML
 * XML (Planned)
 * INI (Planned)
 

@@ -1,7 +1,8 @@
-package manipulators
+package tomlmanipulators
 
 import (
 	"fmt"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/pelletier/go-toml/v2"
@@ -19,7 +20,7 @@ func TestTomlInvalidFile(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -40,7 +41,7 @@ func TestTomlInvalidToml(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -61,7 +62,7 @@ func TestTomlSetInvalidFile(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -84,7 +85,7 @@ func TestTomlSetInvalidToml(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -107,7 +108,7 @@ func TestTomlSetStringField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -147,7 +148,7 @@ func TestTomlSetNumberField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -187,7 +188,7 @@ func TestTomlSetNumberFieldWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -227,7 +228,7 @@ func TestTomlSetBoolField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -267,7 +268,7 @@ func TestTomlSetBoolFieldWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -307,7 +308,7 @@ func TestTomlSetObjectField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -353,7 +354,7 @@ func TestTomlSetObjectFieldWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -393,7 +394,7 @@ func TestTomlSetArrayField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -439,7 +440,7 @@ func TestTomlSetArrayFieldWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -479,7 +480,7 @@ func TestTomlSetArrayFieldWithArray(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -525,7 +526,7 @@ func TestTomlSetNewField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -564,7 +565,7 @@ func TestTomlSetNewNumberField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -603,7 +604,7 @@ func TestTomlSetNewBooleanField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -642,7 +643,7 @@ func TestTomlSetArrayFieldIndex(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -688,7 +689,7 @@ func TestTomlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -734,7 +735,7 @@ func TestTomlSetArrayFieldIndexOutOfBounds(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -761,7 +762,7 @@ func TestTomlSetArrayFieldAgainstObject(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -788,7 +789,7 @@ func TestTomlSetArrayFieldDoubleIndex(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -815,7 +816,7 @@ func TestTomlSetArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -861,7 +862,7 @@ func TestTomlSetArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -907,7 +908,7 @@ func TestTomlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -953,7 +954,7 @@ func TestTomlSetIntArrayFieldIndexWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -999,7 +1000,7 @@ func TestTomlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1045,7 +1046,7 @@ func TestTomlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1091,7 +1092,7 @@ func TestTomlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1137,7 +1138,7 @@ func TestTomlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1183,7 +1184,7 @@ func TestTomlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1229,7 +1230,7 @@ func TestTomlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}
@@ -1275,7 +1276,7 @@ func TestTomlSetMissingNestedField(t *testing.T) {
 	manipulator := TomlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: TomlUnmarshaller{},
 		},
 	}

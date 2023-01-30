@@ -1,36 +1,37 @@
-package manipulators
+package yamlmanipulators
 
 import (
-	"encoding/json"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
+	"gopkg.in/yaml.v3"
 )
 
-type JsonManipulator struct {
+type YamlManipulator struct {
 	Writer         writers.Writer
 	Reader         readers.Reader
-	MapManipulator MapManipulator
+	MapManipulator manipulators.MapManipulator
 }
 
-func (m JsonManipulator) CanManipulate(fileSpec string) bool {
+func (m YamlManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {
 		return false
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(content), &result)
+	err = yaml.Unmarshal([]byte(content), &result)
 	return err == nil
 }
 
-func (m JsonManipulator) SetValue(fileSpec string, valueSpec string, value string) error {
+func (m YamlManipulator) SetValue(fileSpec string, valueSpec string, value string) error {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {
 		return err
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(content), &result)
+	err = yaml.Unmarshal([]byte(content), &result)
 	if err != nil {
 		return err
 	}
@@ -40,7 +41,7 @@ func (m JsonManipulator) SetValue(fileSpec string, valueSpec string, value strin
 		return err
 	}
 
-	json, err := json.Marshal(result)
+	json, err := yaml.Marshal(result)
 	if err != nil {
 		return err
 	}

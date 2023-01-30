@@ -6,6 +6,9 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envscanners"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/executors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/jsonmanipulators"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/tomlmanipulators"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/yamlmanipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/rs/zerolog"
@@ -33,31 +36,31 @@ func main() {
 	}
 	var jsonManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
-		Manipulator: manipulators.JsonManipulator{
+		Manipulator: jsonmanipulators.JsonManipulator{
 			Writer: writer,
 			Reader: reader,
 			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: manipulators.JsonUnmarshaller{},
+				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
 			},
 		},
 	}
 	var yamlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
-		Manipulator: manipulators.YamlManipulator{
+		Manipulator: yamlmanipulators.YamlManipulator{
 			Writer: writer,
 			Reader: reader,
 			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: manipulators.YamlUnmarshaller{},
+				Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
 			},
 		},
 	}
 	var tomlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
-		Manipulator: manipulators.TomlManipulator{
+		Manipulator: tomlmanipulators.TomlManipulator{
 			Writer: writer,
 			Reader: reader,
 			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: manipulators.TomlUnmarshaller{},
+				Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
 			},
 		},
 	}

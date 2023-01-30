@@ -1,7 +1,8 @@
-package manipulators
+package yamlmanipulators
 
 import (
 	"fmt"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"gopkg.in/yaml.v3"
@@ -19,7 +20,7 @@ func TestYamlInvalidFile(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -40,7 +41,7 @@ func TestYamlInvalidJson(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -61,7 +62,7 @@ func TestYamlSetInvalidFile(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -84,7 +85,7 @@ func TestYamlSetInvalidJson(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -107,7 +108,7 @@ func TestYamlSetStringField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -147,7 +148,7 @@ func TestYamlSetNumberField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -187,7 +188,7 @@ func TestYamlSetNumberFieldWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -227,7 +228,7 @@ func TestYamlSetBoolField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -267,7 +268,7 @@ func TestYamlSetBoolFieldWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -307,7 +308,7 @@ func TestYamlSetObjectField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -353,7 +354,7 @@ func TestYamlSetObjectFieldWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -393,7 +394,7 @@ func TestYamlSetArrayField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -439,7 +440,7 @@ func TestYamlSetArrayFieldWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -479,7 +480,7 @@ func TestYamlSetArrayFieldWithArray(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -525,7 +526,7 @@ func TestYamlSetNewField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -564,7 +565,7 @@ func TestYamlSetNewNumberField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -603,7 +604,7 @@ func TestYamlSetNewBooleanField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -642,7 +643,7 @@ func TestYamlSetArrayFieldIndex(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -688,7 +689,7 @@ func TestYamlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -734,7 +735,7 @@ func TestYamlSetArrayFieldIndexOutOfBounds(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -761,7 +762,7 @@ func TestYamlSetArrayFieldAgainstObject(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -788,7 +789,7 @@ func TestYamlSetArrayFieldDoubleIndex(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -815,7 +816,7 @@ func TestYamlSetArrayFieldIndexWithNumber(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -861,7 +862,7 @@ func TestYamlSetArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -907,7 +908,7 @@ func TestYamlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -953,7 +954,7 @@ func TestYamlSetIntArrayFieldIndexWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -999,7 +1000,7 @@ func TestYamlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1045,7 +1046,7 @@ func TestYamlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1091,7 +1092,7 @@ func TestYamlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1137,7 +1138,7 @@ func TestYamlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1183,7 +1184,7 @@ func TestYamlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1229,7 +1230,7 @@ func TestYamlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}
@@ -1275,7 +1276,7 @@ func TestYamlSetMissingNestedField(t *testing.T) {
 	manipulator := YamlManipulator{
 		Writer: &writer,
 		Reader: reader,
-		MapManipulator: CommonMapManipulator{
+		MapManipulator: manipulators.CommonMapManipulator{
 			Unmarshaller: YamlUnmarshaller{},
 		},
 	}

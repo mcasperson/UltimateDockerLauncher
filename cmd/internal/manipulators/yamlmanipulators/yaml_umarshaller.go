@@ -1,4 +1,4 @@
-package manipulators
+package yamlmanipulators
 
 import (
 	"gopkg.in/yaml.v3"

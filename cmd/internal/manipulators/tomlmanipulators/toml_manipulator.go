@@ -1,36 +1,37 @@
-package manipulators
+package tomlmanipulators
 
 import (
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
-	"gopkg.in/yaml.v3"
+	"github.com/pelletier/go-toml/v2"
 )
 
-type YamlManipulator struct {
+type TomlManipulator struct {
 	Writer         writers.Writer
 	Reader         readers.Reader
-	MapManipulator MapManipulator
+	MapManipulator manipulators.MapManipulator
 }
 
-func (m YamlManipulator) CanManipulate(fileSpec string) bool {
+func (m TomlManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {
 		return false
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(content), &result)
+	err = toml.Unmarshal([]byte(content), &result)
 	return err == nil
 }
 
-func (m YamlManipulator) SetValue(fileSpec string, valueSpec string, value string) error {
+func (m TomlManipulator) SetValue(fileSpec string, valueSpec string, value string) error {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {
 		return err
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(content), &result)
+	err = toml.Unmarshal([]byte(content), &result)
 	if err != nil {
 		return err
 	}
@@ -40,7 +41,7 @@ func (m YamlManipulator) SetValue(fileSpec string, valueSpec string, value strin
 		return err
 	}
 
-	json, err := yaml.Marshal(result)
+	json, err := toml.Marshal(result)
 	if err != nil {
 		return err
 	}
