@@ -19,6 +19,17 @@ Ultimate Docker Launcher provides the ability to write or modify configuration f
 It works by scanning environment variables for known patterns indicating files that need to be (over)written or
 modified, and then executes a wrapped executable.
 
+## Project Goals
+
+The aim of this project is to allow Linux based containers to add or modify configuration files when a container is
+launched. All configuration is done via environment variables, which are supported by every container orchestration
+platform.
+
+## Project Non-goals
+
+* This project does not support Windows containers.
+* This project does not aim to create a standalone tool for use outside of containers.
+
 ## Quick Env Var Reference
 
 * `UDL_WRITEFILE[FILENAME]`: Writes a file e.g. `UDL_WRITEFILE[/etc/myapp/config.json]`
