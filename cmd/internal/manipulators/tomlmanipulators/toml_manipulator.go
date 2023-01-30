@@ -5,6 +5,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/pelletier/go-toml/v2"
+	"strings"
 )
 
 type TomlManipulator struct {
@@ -21,7 +22,7 @@ func (m TomlManipulator) CanManipulate(fileSpec string) bool {
 
 	var result map[string]any
 	err = toml.Unmarshal([]byte(content), &result)
-	return err == nil
+	return err == nil && strings.HasSuffix(fileSpec, ".toml")
 }
 
 func (m TomlManipulator) SetValue(fileSpec string, valueSpec string, value string) error {

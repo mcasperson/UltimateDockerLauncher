@@ -5,6 +5,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"gopkg.in/yaml.v3"
+	"strings"
 )
 
 type YamlManipulator struct {
@@ -21,7 +22,7 @@ func (m YamlManipulator) CanManipulate(fileSpec string) bool {
 
 	var result map[string]any
 	err = yaml.Unmarshal([]byte(content), &result)
-	return err == nil
+	return err == nil && (strings.HasSuffix(fileSpec, ".yml") || strings.HasSuffix(fileSpec, ".yaml"))
 }
 
 func (m YamlManipulator) SetValue(fileSpec string, valueSpec string, value string) error {

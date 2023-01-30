@@ -5,6 +5,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
+	"strings"
 )
 
 type JsonManipulator struct {
@@ -21,7 +22,7 @@ func (m JsonManipulator) CanManipulate(fileSpec string) bool {
 
 	var result map[string]any
 	err = json.Unmarshal([]byte(content), &result)
-	return err == nil
+	return err == nil && strings.HasSuffix(fileSpec, ".json")
 }
 
 func (m JsonManipulator) SetValue(fileSpec string, valueSpec string, value string) error {
