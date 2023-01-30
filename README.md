@@ -1,5 +1,5 @@
 # Ultimate Docker Launcher
-![Coverage](https://img.shields.io/badge/Coverage-88.9%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-90.1%25-brightgreen)
 
 Customizing Docker configuration files for an environment can be a pain with legacy applications that do not have the ability
 to be fully configured via environment variables. Some container orchestration platforms, like Kubernetes, provide
