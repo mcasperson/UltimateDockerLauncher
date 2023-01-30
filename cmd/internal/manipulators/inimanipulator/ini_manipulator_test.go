@@ -131,6 +131,38 @@ func TestSetIniStringGroupField(t *testing.T) {
 	}
 }
 
+func TestSetIniStringGroupColonField(t *testing.T) {
+	jsonExample := "[group]\nwhatever: value"
+	writer := writers.StringWriter{}
+	reader := readers.StringReader{
+		Files: map[string]string{
+			"/etc/config.ini": jsonExample,
+		},
+	}
+	manipulator := IniManipulator{
+		Writer: &writer,
+		Reader: reader,
+	}
+
+	if !manipulator.CanManipulate("/etc/config.ini") {
+		t.Fatal("Must be able to manipulate INI files")
+	}
+
+	err := manipulator.SetValue("/etc/config.ini", "group:whatever", "newvalue")
+
+	if err != nil {
+		t.Fatal("Failed to manipulate INI file: " + err.Error())
+	}
+
+	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+
+	value := result.Section("group").Key("whatever").Value()
+
+	if value != "newvalue" {
+		t.Fatal("Value must be set to \"newvalue\" (was: \"" + value + "\"")
+	}
+}
+
 func TestSetIniIntField(t *testing.T) {
 	jsonExample := "whatever = 10"
 	writer := writers.StringWriter{}
