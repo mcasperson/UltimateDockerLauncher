@@ -102,8 +102,8 @@ UDL understands a number of file formats, including:
 * JSON
 * YAML
 * TOML
-* XML (Planned)
-* INI (Planned)
+* INI
+* XML (not implemented yet)
 
 The values assigned to the environment variables in the format `UDL_SETVALUE[FILENAME][KEY]`  are inserted into the file
 `FILENAME` creating or overwriting the value found at `KEY`. 

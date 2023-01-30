@@ -6,6 +6,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envscanners"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/executors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
+	inimanipulators "github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/inimanipulator"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/jsonmanipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/tomlmanipulators"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators/yamlmanipulators"
@@ -64,8 +65,21 @@ func main() {
 			},
 		},
 	}
+	var iniManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
+		Env: envprovider,
+		Manipulator: inimanipulators.IniManipulator{
+			Writer: writer,
+			Reader: reader,
+		},
+	}
 
 	err := writeFileScanner.ProcessEnvVars()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = iniManipluator.ProcessEnvVars()
 
 	if err != nil {
 		panic(err.Error())

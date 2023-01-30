@@ -10,11 +10,11 @@ import (
 )
 
 func TestTomlInvalidFile(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -31,11 +31,11 @@ func TestTomlInvalidFile(t *testing.T) {
 }
 
 func TestTomlInvalidToml(t *testing.T) {
-	tamlExample := "blah: hi\n- hi"
+	tomlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -52,11 +52,11 @@ func TestTomlInvalidToml(t *testing.T) {
 }
 
 func TestTomlSetInvalidFile(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -75,11 +75,11 @@ func TestTomlSetInvalidFile(t *testing.T) {
 }
 
 func TestTomlSetInvalidToml(t *testing.T) {
-	tamlExample := "blah: hi\n- hi"
+	tomlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -98,11 +98,11 @@ func TestTomlSetInvalidToml(t *testing.T) {
 }
 
 func TestTomlSetStringField(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -138,11 +138,11 @@ func TestTomlSetStringField(t *testing.T) {
 }
 
 func TestTomlSetNumberField(t *testing.T) {
-	tamlExample := "\"whatever\"= 5"
+	tomlExample := "\"whatever\"= 5"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -178,11 +178,11 @@ func TestTomlSetNumberField(t *testing.T) {
 }
 
 func TestTomlSetNumberFieldWithString(t *testing.T) {
-	tamlExample := "\"whatever\"= 5"
+	tomlExample := "\"whatever\"= 5"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -218,11 +218,11 @@ func TestTomlSetNumberFieldWithString(t *testing.T) {
 }
 
 func TestTomlSetBoolField(t *testing.T) {
-	tamlExample := "\"whatever\"= true"
+	tomlExample := "\"whatever\"= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -258,11 +258,11 @@ func TestTomlSetBoolField(t *testing.T) {
 }
 
 func TestTomlSetBoolFieldWithString(t *testing.T) {
-	tamlExample := "\"whatever\"= true"
+	tomlExample := "\"whatever\"= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -298,11 +298,11 @@ func TestTomlSetBoolFieldWithString(t *testing.T) {
 }
 
 func TestTomlSetObjectField(t *testing.T) {
-	tamlExample := "[whatever]\nwhatever2 = true"
+	tomlExample := "[whatever]\nwhatever2 = true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -344,11 +344,11 @@ func TestTomlSetObjectField(t *testing.T) {
 }
 
 func TestTomlSetObjectFieldWithString(t *testing.T) {
-	tamlExample := "[whatever]\nwhatever2= true"
+	tomlExample := "[whatever]\nwhatever2= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -384,11 +384,11 @@ func TestTomlSetObjectFieldWithString(t *testing.T) {
 }
 
 func TestTomlSetArrayField(t *testing.T) {
-	tamlExample := "whatever= [\"hi\"]"
+	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -430,11 +430,11 @@ func TestTomlSetArrayField(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldWithString(t *testing.T) {
-	tamlExample := "whatever= [\"hi\"]"
+	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -470,11 +470,11 @@ func TestTomlSetArrayFieldWithString(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldWithArray(t *testing.T) {
-	tamlExample := "whatever = [[\"hi\"]]"
+	tomlExample := "whatever = [[\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -516,11 +516,11 @@ func TestTomlSetArrayFieldWithArray(t *testing.T) {
 }
 
 func TestTomlSetNewField(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -555,11 +555,11 @@ func TestTomlSetNewField(t *testing.T) {
 }
 
 func TestTomlSetNewNumberField(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -594,11 +594,11 @@ func TestTomlSetNewNumberField(t *testing.T) {
 }
 
 func TestTomlSetNewBooleanField(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -633,11 +633,11 @@ func TestTomlSetNewBooleanField(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldIndex(t *testing.T) {
-	tamlExample := "whatever = [\"hi\"]"
+	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -679,11 +679,11 @@ func TestTomlSetArrayFieldIndex(t *testing.T) {
 }
 
 func TestTomlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
-	tamlExample := "whatever = [10]"
+	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -725,11 +725,11 @@ func TestTomlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldIndexOutOfBounds(t *testing.T) {
-	tamlExample := "whatever= [\"hi\"]"
+	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -752,11 +752,11 @@ func TestTomlSetArrayFieldIndexOutOfBounds(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldAgainstObject(t *testing.T) {
-	tamlExample := "[whatever]\nhi= \"there\""
+	tomlExample := "[whatever]\nhi= \"there\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -779,11 +779,11 @@ func TestTomlSetArrayFieldAgainstObject(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldDoubleIndex(t *testing.T) {
-	tamlExample := "whatever= [\"hi\"]"
+	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -806,11 +806,11 @@ func TestTomlSetArrayFieldDoubleIndex(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldIndexWithNumber(t *testing.T) {
-	tamlExample := "whatever = [\"hi\"]"
+	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -852,11 +852,11 @@ func TestTomlSetArrayFieldIndexWithNumber(t *testing.T) {
 }
 
 func TestTomlSetArrayFieldIndexWithBool(t *testing.T) {
-	tamlExample := "whatever = [\"hi\"]"
+	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -898,11 +898,11 @@ func TestTomlSetArrayFieldIndexWithBool(t *testing.T) {
 }
 
 func TestTomlSetIntArrayFieldIndexWithInt(t *testing.T) {
-	tamlExample := "whatever = [10]"
+	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -944,11 +944,11 @@ func TestTomlSetIntArrayFieldIndexWithInt(t *testing.T) {
 }
 
 func TestTomlSetIntArrayFieldIndexWithString(t *testing.T) {
-	tamlExample := "whatever = [10]"
+	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -990,11 +990,11 @@ func TestTomlSetIntArrayFieldIndexWithString(t *testing.T) {
 }
 
 func TestTomlSetBoolArrayFieldIndexWithBool(t *testing.T) {
-	tamlExample := "whatever = [true]"
+	tomlExample := "whatever = [true]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1036,11 +1036,11 @@ func TestTomlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 }
 
 func TestTomlSetBoolArrayFieldIndexWithString(t *testing.T) {
-	tamlExample := "whatever = [true]"
+	tomlExample := "whatever = [true]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1082,11 +1082,11 @@ func TestTomlSetBoolArrayFieldIndexWithString(t *testing.T) {
 }
 
 func TestTomlSetObjectArrayFieldIndexWithObject(t *testing.T) {
-	tamlExample := "[[whatever]]\nwhatever2= \"hi\""
+	tomlExample := "[[whatever]]\nwhatever2= \"hi\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1128,11 +1128,11 @@ func TestTomlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 }
 
 func TestTomlSetObjectArrayFieldIndexWithString(t *testing.T) {
-	tamlExample := "[[whatever]]\nwhatever2=\"hi\""
+	tomlExample := "[[whatever]]\nwhatever2=\"hi\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1174,11 +1174,11 @@ func TestTomlSetObjectArrayFieldIndexWithString(t *testing.T) {
 }
 
 func TestTomlSetArrayArrayFieldIndexWithArray(t *testing.T) {
-	tamlExample := "whatever = [[\"whatever2\",\"hi\"]]"
+	tomlExample := "whatever = [[\"whatever2\",\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1220,11 +1220,11 @@ func TestTomlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 }
 
 func TestTomlSetArrayArrayFieldIndexWithString(t *testing.T) {
-	tamlExample := "whatever = [[\"whatever2\",\"hi\"]]"
+	tomlExample := "whatever = [[\"whatever2\",\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
@@ -1266,11 +1266,11 @@ func TestTomlSetArrayArrayFieldIndexWithString(t *testing.T) {
 }
 
 func TestTomlSetMissingNestedField(t *testing.T) {
-	tamlExample := "whatever= \"value\""
+	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: map[string]string{
-			"/etc/config.toml": tamlExample,
+			"/etc/config.toml": tomlExample,
 		},
 	}
 	manipulator := TomlManipulator{
