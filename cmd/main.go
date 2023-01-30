@@ -34,9 +34,31 @@ func main() {
 	var jsonManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
 		Manipulator: manipulators.JsonManipulator{
-			Writer:         writer,
-			Reader:         reader,
-			MapManipulator: manipulators.CommonMapManipulator{},
+			Writer: writer,
+			Reader: reader,
+			MapManipulator: manipulators.CommonMapManipulator{
+				Unmarshaller: manipulators.JsonUnmarshaller{},
+			},
+		},
+	}
+	var yamlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
+		Env: envprovider,
+		Manipulator: manipulators.YamlManipulator{
+			Writer: writer,
+			Reader: reader,
+			MapManipulator: manipulators.CommonMapManipulator{
+				Unmarshaller: manipulators.YamlUnmarshaller{},
+			},
+		},
+	}
+	var tomlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
+		Env: envprovider,
+		Manipulator: manipulators.TomlManipulator{
+			Writer: writer,
+			Reader: reader,
+			MapManipulator: manipulators.CommonMapManipulator{
+				Unmarshaller: manipulators.TomlUnmarshaller{},
+			},
 		},
 	}
 
@@ -47,6 +69,18 @@ func main() {
 	}
 
 	err = jsonManipluator.ProcessEnvVars()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = yamlManipluator.ProcessEnvVars()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = tomlManipluator.ProcessEnvVars()
 
 	if err != nil {
 		panic(err.Error())
