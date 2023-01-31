@@ -36,6 +36,15 @@ platform.
 * `UDL_WRITEB64FILE[FILENAME]`: Writes a base64 encoded value to a file e.g. `UDL_WRITEB64FILE[/etc/myapp/config.json]` with a value of `e3doYXRldmVyOiBbaGVsbG9dfQo=`
 * `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` or `UDL_SETVALUE[/etc/myapp/config.yaml][entry2:entry3:0]` with a value of `newvalue`
 
+## Quick Key Reference
+
+### JSON, YAML, and TOML 
+* Keys are colon separated path accessors e.g. `value` in the JSON blob `{"top": {"second": {"third": "value"}}}` is accessed via `top:second:third`.
+* Array items are accessed with a zero based index e.g. `value` in the JSON blob `{"top": {"second": ["value"]}}` is accessed via `top:second:0`
+
+### INI
+* Keys reference the top level INI property, or are colon separated group and property e.g. `property` or `groupLproperty`
+
 ## Docker CMD Example
 
 Save the following to `Dockerfile`:
@@ -131,9 +140,9 @@ The format of `KEY` depends on the file being edited:
 
 For example, given a JSON file like this at `/etc/myapp/config.json`:
 
-```
+```json
 {
-    "entry1": "value1"
+    "entry1": "value1",
     "entry2": {
         "entry3": "value2"
     },
@@ -144,3 +153,83 @@ For example, given a JSON file like this at `/etc/myapp/config.json`:
 * `UDL_SETVALUE[/etc/myapp/config.json][entry1]` replaces `value1`
 * `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` replaces `value2`
 * `UDL_SETVALUE[/etc/myapp/config.json][entry4:1]` replaces `value4`
+
+## Type retention
+
+Where possible, the type of the replaced value is retained. Numbers, strings, booleans, arrays, and objects are 
+recognized.
+
+Where the replacement value is unable to be cast to the value at the destination, the replacement value is inserted
+as a string.
+
+Given the following JSON blob at `/etc/myapp/config.json`
+
+```json
+{
+    "entry1": "value1",
+    "entry2": {
+        "entry3": true
+    },
+    "entry4": [1, 2]
+}
+```
+
+Then setting the env var `UDL_SETVALUE[/etc/myapp/config.json][entry1]` with a value of `test` results in:
+
+```JSON
+{
+    "entry1": "test",
+    "entry2": {
+        "entry3": true
+    },
+    "entry4": [1, 2]
+}
+```
+
+The env var `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` with a value of `false` results in:
+
+```json
+{
+    "entry1": "test",
+    "entry2": {
+        "entry3": false
+    },
+    "entry4": [1, 2]
+}
+```
+
+The env var `UDL_SETVALUE[/etc/myapp/config.json][entry4:1]` with a value of `10` results in:
+
+```json
+{
+    "entry1": "test",
+    "entry2": {
+        "entry3": false
+    },
+    "entry4": [1, 10]
+}
+```
+
+The env var `UDL_SETVALUE[/etc/myapp/config.json][entry2]` with a value of `{"entry5": "value1"}` results in:
+
+```json
+{
+    "entry1": "test",
+    "entry2": {
+        "entry5": "value1"
+    },
+    "entry4": [1, 2]
+}
+```
+
+The env var `UDL_SETVALUE[/etc/myapp/config.json][entry4]` with a value of `["value6", "value7"]` results in:
+
+```json
+{
+    "entry1": "test",
+    "entry2": {
+        "entry5": "value1"
+    },
+    "entry4": ["value6", "value7"]
+}
+```
