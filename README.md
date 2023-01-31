@@ -32,9 +32,9 @@ platform.
 
 ## Quick Env Var Reference
 
-* `UDL_WRITEFILE[FILENAME]`: Writes a file e.g. `UDL_WRITEFILE[/etc/myapp/config.json]`
-* `UDL_WRITEB64FILE[FILENAME]`: Writes a base64 encoded value to a file e.g. `UDL_WRITEB64FILE[/etc/myapp/config.json]`
-* `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` or `UDL_SETVALUE[/etc/myapp/config.yaml][entry2:entry3:0]`
+* `UDL_WRITEFILE[FILENAME]`: Writes a file e.g. `UDL_WRITEFILE[/etc/myapp/config.json]` with a value of `{"whatever": ["hello"]}`
+* `UDL_WRITEB64FILE[FILENAME]`: Writes a base64 encoded value to a file e.g. `UDL_WRITEB64FILE[/etc/myapp/config.json]` with a value of `e3doYXRldmVyOiBbaGVsbG9dfQo=`
+* `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` or `UDL_SETVALUE[/etc/myapp/config.yaml][entry2:entry3:0]` with a value of `newvalue`
 
 ## Docker CMD Example
 
