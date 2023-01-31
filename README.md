@@ -43,7 +43,7 @@ platform.
 * Array items are accessed with a zero based index e.g. `value` in the JSON blob `{"top": {"second": ["value"]}}` is accessed via `top:second:0`
 
 ### INI
-* Keys reference the top level INI property, or are colon separated group and property e.g. `property` or `groupLproperty`
+* Keys reference the top level INI property, or are colon separated group and property e.g. `property` or `group:property`
 
 ## Docker CMD Example
 
