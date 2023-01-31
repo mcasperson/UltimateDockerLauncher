@@ -107,6 +107,9 @@ The values assigned to environment variables in the format `UDL_WRITEFILE[FILENA
 For example, UDL will save the contents of the environment variable `UDL_WRITEFILE[/etc/myapp/config.json]` to
 the file `/etc/myapp/config.json` during initialization.
 
+To write complex files, use an env var with the format `UDL_WRITEB64FILE[FILENAME]`, which decodes the base64 value
+assigned to it and writes it to a file.
+
 ## Manipulating files
 
 UDL understands a number of file formats, including:
