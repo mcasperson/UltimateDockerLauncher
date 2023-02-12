@@ -13,7 +13,7 @@ func TestYamlInvalidFile(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -34,7 +34,7 @@ func TestYamlInvalidJson(t *testing.T) {
 	yamlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -55,7 +55,7 @@ func TestYamlSetInvalidFile(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -78,7 +78,7 @@ func TestYamlSetInvalidJson(t *testing.T) {
 	yamlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -101,7 +101,7 @@ func TestYamlSetStringField(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -124,7 +124,7 @@ func TestYamlSetStringField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -141,7 +141,7 @@ func TestYamlSetNumberField(t *testing.T) {
 	yamlExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -164,7 +164,7 @@ func TestYamlSetNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(int)
 
@@ -181,7 +181,7 @@ func TestYamlSetNumberFieldWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -204,7 +204,7 @@ func TestYamlSetNumberFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -221,7 +221,7 @@ func TestYamlSetBoolField(t *testing.T) {
 	yamlExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -244,7 +244,7 @@ func TestYamlSetBoolField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(bool)
 
@@ -261,7 +261,7 @@ func TestYamlSetBoolFieldWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -284,7 +284,7 @@ func TestYamlSetBoolFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -301,7 +301,7 @@ func TestYamlSetObjectField(t *testing.T) {
 	yamlExample := "whatever:\n  whatever2: true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -324,7 +324,7 @@ func TestYamlSetObjectField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(map[string]any)
 
@@ -347,7 +347,7 @@ func TestYamlSetObjectFieldWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":{\"whatever2\":true}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -370,7 +370,7 @@ func TestYamlSetObjectFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -387,7 +387,7 @@ func TestYamlSetArrayField(t *testing.T) {
 	yamlExample := "whatever: [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -410,7 +410,7 @@ func TestYamlSetArrayField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -433,7 +433,7 @@ func TestYamlSetArrayFieldWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -456,7 +456,7 @@ func TestYamlSetArrayFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -473,7 +473,7 @@ func TestYamlSetArrayFieldWithArray(t *testing.T) {
 	yamlExample := "{\"whatever\":[[\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -496,7 +496,7 @@ func TestYamlSetArrayFieldWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -519,7 +519,7 @@ func TestYamlSetNewField(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -542,7 +542,7 @@ func TestYamlSetNewField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -558,7 +558,7 @@ func TestYamlSetNewNumberField(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -581,7 +581,7 @@ func TestYamlSetNewNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -597,7 +597,7 @@ func TestYamlSetNewBooleanField(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -620,7 +620,7 @@ func TestYamlSetNewBooleanField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -636,7 +636,7 @@ func TestYamlSetArrayFieldIndex(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -659,7 +659,7 @@ func TestYamlSetArrayFieldIndex(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -682,7 +682,7 @@ func TestYamlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -705,7 +705,7 @@ func TestYamlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -728,7 +728,7 @@ func TestYamlSetArrayFieldIndexOutOfBounds(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -755,7 +755,7 @@ func TestYamlSetArrayFieldAgainstObject(t *testing.T) {
 	yamlExample := "{\"whatever\":{\"hi\":\"there\"}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -782,7 +782,7 @@ func TestYamlSetArrayFieldDoubleIndex(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -809,7 +809,7 @@ func TestYamlSetArrayFieldIndexWithNumber(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -832,7 +832,7 @@ func TestYamlSetArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -855,7 +855,7 @@ func TestYamlSetArrayFieldIndexWithBool(t *testing.T) {
 	yamlExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -878,7 +878,7 @@ func TestYamlSetArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -901,7 +901,7 @@ func TestYamlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -924,7 +924,7 @@ func TestYamlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -947,7 +947,7 @@ func TestYamlSetIntArrayFieldIndexWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -970,7 +970,7 @@ func TestYamlSetIntArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -993,7 +993,7 @@ func TestYamlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	yamlExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1016,7 +1016,7 @@ func TestYamlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1039,7 +1039,7 @@ func TestYamlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1062,7 +1062,7 @@ func TestYamlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1085,7 +1085,7 @@ func TestYamlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	yamlExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1108,7 +1108,7 @@ func TestYamlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1131,7 +1131,7 @@ func TestYamlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1154,7 +1154,7 @@ func TestYamlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1177,7 +1177,7 @@ func TestYamlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	yamlExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1200,7 +1200,7 @@ func TestYamlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1223,7 +1223,7 @@ func TestYamlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	yamlExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}
@@ -1246,7 +1246,7 @@ func TestYamlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = yaml.Unmarshal([]byte(writer.Output["/etc/config.yaml"]), &result)
+	err = yaml.Unmarshal([]byte((*writer.Output)["/etc/config.yaml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1269,7 +1269,7 @@ func TestYamlSetMissingNestedField(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.yaml": yamlExample,
 		},
 	}

@@ -11,7 +11,7 @@ func TestInvalidFile(t *testing.T) {
 	jsonExample := "whatever = value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -29,7 +29,7 @@ func TestInvalidFileExtension(t *testing.T) {
 	jsonExample := "hi= there"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -47,7 +47,7 @@ func TestSetInvalidStringField(t *testing.T) {
 	jsonExample := "whatever = value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -71,7 +71,7 @@ func TestSetIniStringField(t *testing.T) {
 	jsonExample := "whatever = value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -90,7 +90,7 @@ func TestSetIniStringField(t *testing.T) {
 		t.Fatal("Failed to manipulate INI file: " + err.Error())
 	}
 
-	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+	result, err := ini.Load([]byte((*writer.Output)["/etc/config.ini"]))
 
 	value := result.Section("").Key("whatever").Value()
 
@@ -103,7 +103,7 @@ func TestSetIniStringGroupField(t *testing.T) {
 	jsonExample := "[group]\nwhatever = value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -122,7 +122,7 @@ func TestSetIniStringGroupField(t *testing.T) {
 		t.Fatal("Failed to manipulate INI file: " + err.Error())
 	}
 
-	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+	result, err := ini.Load([]byte((*writer.Output)["/etc/config.ini"]))
 
 	value := result.Section("group").Key("whatever").Value()
 
@@ -135,7 +135,7 @@ func TestSetIniStringGroupColonField(t *testing.T) {
 	jsonExample := "[group]\nwhatever: value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -154,7 +154,7 @@ func TestSetIniStringGroupColonField(t *testing.T) {
 		t.Fatal("Failed to manipulate INI file: " + err.Error())
 	}
 
-	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+	result, err := ini.Load([]byte((*writer.Output)["/etc/config.ini"]))
 
 	value := result.Section("group").Key("whatever").Value()
 
@@ -167,7 +167,7 @@ func TestSetIniIntField(t *testing.T) {
 	jsonExample := "whatever = 10"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -186,7 +186,7 @@ func TestSetIniIntField(t *testing.T) {
 		t.Fatal("Failed to manipulate INI file: " + err.Error())
 	}
 
-	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+	result, err := ini.Load([]byte((*writer.Output)["/etc/config.ini"]))
 
 	value := result.Section("").Key("whatever").Value()
 
@@ -199,7 +199,7 @@ func TestSetIniBoolField(t *testing.T) {
 	jsonExample := "whatever = false"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.ini": jsonExample,
 		},
 	}
@@ -218,7 +218,7 @@ func TestSetIniBoolField(t *testing.T) {
 		t.Fatal("Failed to manipulate INI file: " + err.Error())
 	}
 
-	result, err := ini.Load([]byte(writer.Output["/etc/config.ini"]))
+	result, err := ini.Load([]byte((*writer.Output)["/etc/config.ini"]))
 
 	value := result.Section("").Key("whatever").Value()
 

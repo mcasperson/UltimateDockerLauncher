@@ -26,7 +26,7 @@ func TestB64FileWriting(t *testing.T) {
 		t.Fatal(err.Error())
 	}
 
-	value, ok := writer.Output["/etc/myapp/settings.json"]
+	value, ok := (*writer.Output)["/etc/myapp/settings.json"]
 
 	if !ok {
 		t.Fatal("Did not create the expected file")

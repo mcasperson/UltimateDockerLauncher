@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/pelletier/go-toml/v2 v2.0.6
 	github.com/rs/zerolog v1.29.0
-	github.com/subpop/go-ini v0.1.4
 	gopkg.in/ini.v1 v1.67.0
 	gopkg.in/yaml.v3 v3.0.1
 )

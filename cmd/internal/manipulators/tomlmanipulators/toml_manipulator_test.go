@@ -13,7 +13,7 @@ func TestTomlInvalidFile(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -34,7 +34,7 @@ func TestTomlInvalidToml(t *testing.T) {
 	tomlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -55,7 +55,7 @@ func TestTomlSetInvalidFile(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -78,7 +78,7 @@ func TestTomlSetInvalidToml(t *testing.T) {
 	tomlExample := "blah: hi\n- hi"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -101,7 +101,7 @@ func TestTomlSetStringField(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -124,7 +124,7 @@ func TestTomlSetStringField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -141,7 +141,7 @@ func TestTomlSetNumberField(t *testing.T) {
 	tomlExample := "\"whatever\"= 5"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -164,7 +164,7 @@ func TestTomlSetNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(float64)
 
@@ -181,7 +181,7 @@ func TestTomlSetNumberFieldWithString(t *testing.T) {
 	tomlExample := "\"whatever\"= 5"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -204,7 +204,7 @@ func TestTomlSetNumberFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -221,7 +221,7 @@ func TestTomlSetBoolField(t *testing.T) {
 	tomlExample := "\"whatever\"= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -244,7 +244,7 @@ func TestTomlSetBoolField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(bool)
 
@@ -261,7 +261,7 @@ func TestTomlSetBoolFieldWithString(t *testing.T) {
 	tomlExample := "\"whatever\"= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -284,7 +284,7 @@ func TestTomlSetBoolFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -301,7 +301,7 @@ func TestTomlSetObjectField(t *testing.T) {
 	tomlExample := "[whatever]\nwhatever2 = true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -324,7 +324,7 @@ func TestTomlSetObjectField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(map[string]any)
 
@@ -347,7 +347,7 @@ func TestTomlSetObjectFieldWithString(t *testing.T) {
 	tomlExample := "[whatever]\nwhatever2= true"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -370,7 +370,7 @@ func TestTomlSetObjectFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -387,7 +387,7 @@ func TestTomlSetArrayField(t *testing.T) {
 	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -410,7 +410,7 @@ func TestTomlSetArrayField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -433,7 +433,7 @@ func TestTomlSetArrayFieldWithString(t *testing.T) {
 	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -456,7 +456,7 @@ func TestTomlSetArrayFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -473,7 +473,7 @@ func TestTomlSetArrayFieldWithArray(t *testing.T) {
 	tomlExample := "whatever = [[\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -496,7 +496,7 @@ func TestTomlSetArrayFieldWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -519,7 +519,7 @@ func TestTomlSetNewField(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -542,7 +542,7 @@ func TestTomlSetNewField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -558,7 +558,7 @@ func TestTomlSetNewNumberField(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -581,7 +581,7 @@ func TestTomlSetNewNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -597,7 +597,7 @@ func TestTomlSetNewBooleanField(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -620,7 +620,7 @@ func TestTomlSetNewBooleanField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -636,7 +636,7 @@ func TestTomlSetArrayFieldIndex(t *testing.T) {
 	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -659,7 +659,7 @@ func TestTomlSetArrayFieldIndex(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -682,7 +682,7 @@ func TestTomlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -705,7 +705,7 @@ func TestTomlSetNumberArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -728,7 +728,7 @@ func TestTomlSetArrayFieldIndexOutOfBounds(t *testing.T) {
 	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -755,7 +755,7 @@ func TestTomlSetArrayFieldAgainstObject(t *testing.T) {
 	tomlExample := "[whatever]\nhi= \"there\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -782,7 +782,7 @@ func TestTomlSetArrayFieldDoubleIndex(t *testing.T) {
 	tomlExample := "whatever= [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -809,7 +809,7 @@ func TestTomlSetArrayFieldIndexWithNumber(t *testing.T) {
 	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -832,7 +832,7 @@ func TestTomlSetArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -855,7 +855,7 @@ func TestTomlSetArrayFieldIndexWithBool(t *testing.T) {
 	tomlExample := "whatever = [\"hi\"]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -878,7 +878,7 @@ func TestTomlSetArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -901,7 +901,7 @@ func TestTomlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -924,7 +924,7 @@ func TestTomlSetIntArrayFieldIndexWithInt(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -947,7 +947,7 @@ func TestTomlSetIntArrayFieldIndexWithString(t *testing.T) {
 	tomlExample := "whatever = [10]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -970,7 +970,7 @@ func TestTomlSetIntArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -993,7 +993,7 @@ func TestTomlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	tomlExample := "whatever = [true]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1016,7 +1016,7 @@ func TestTomlSetBoolArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1039,7 +1039,7 @@ func TestTomlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	tomlExample := "whatever = [true]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1062,7 +1062,7 @@ func TestTomlSetBoolArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1085,7 +1085,7 @@ func TestTomlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	tomlExample := "[[whatever]]\nwhatever2= \"hi\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1108,7 +1108,7 @@ func TestTomlSetObjectArrayFieldIndexWithObject(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1131,7 +1131,7 @@ func TestTomlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	tomlExample := "[[whatever]]\nwhatever2=\"hi\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1154,7 +1154,7 @@ func TestTomlSetObjectArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1177,7 +1177,7 @@ func TestTomlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	tomlExample := "whatever = [[\"whatever2\",\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1200,7 +1200,7 @@ func TestTomlSetArrayArrayFieldIndexWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1223,7 +1223,7 @@ func TestTomlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	tomlExample := "whatever = [[\"whatever2\",\"hi\"]]"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}
@@ -1246,7 +1246,7 @@ func TestTomlSetArrayArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = toml.Unmarshal([]byte(writer.Output["/etc/config.toml"]), &result)
+	err = toml.Unmarshal([]byte((*writer.Output)["/etc/config.toml"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1269,7 +1269,7 @@ func TestTomlSetMissingNestedField(t *testing.T) {
 	tomlExample := "whatever= \"value\""
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.toml": tomlExample,
 		},
 	}

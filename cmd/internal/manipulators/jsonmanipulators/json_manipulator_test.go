@@ -13,7 +13,7 @@ func TestInvalidFile(t *testing.T) {
 	jsonExample := "{whatever:\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -34,7 +34,7 @@ func TestInvalidJson(t *testing.T) {
 	jsonExample := "{whatever:\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -55,7 +55,7 @@ func TestSetInvalidFile(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -78,7 +78,7 @@ func TestSetInvalidJson(t *testing.T) {
 	jsonExample := "{whatever:\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -101,7 +101,7 @@ func TestSetJsonStringField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -124,7 +124,7 @@ func TestSetJsonStringField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -141,7 +141,7 @@ func TestSetJsonNumberField(t *testing.T) {
 	jsonExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -164,7 +164,7 @@ func TestSetJsonNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(float64)
 
@@ -181,7 +181,7 @@ func TestSetJsonNumberFieldWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":5}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -204,7 +204,7 @@ func TestSetJsonNumberFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -221,7 +221,7 @@ func TestSetJsonBoolField(t *testing.T) {
 	jsonExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -244,7 +244,7 @@ func TestSetJsonBoolField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(bool)
 
@@ -261,7 +261,7 @@ func TestSetJsonBoolFieldWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":true}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -284,7 +284,7 @@ func TestSetJsonBoolFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -301,7 +301,7 @@ func TestSetJsonObjectField(t *testing.T) {
 	jsonExample := "{\"whatever\":{\"whatever2\":true}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -324,7 +324,7 @@ func TestSetJsonObjectField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(map[string]any)
 
@@ -347,7 +347,7 @@ func TestSetJsonObjectFieldWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":{\"whatever2\":true}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -370,7 +370,7 @@ func TestSetJsonObjectFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -387,7 +387,7 @@ func TestSetJsonArrayField(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -410,7 +410,7 @@ func TestSetJsonArrayField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -433,7 +433,7 @@ func TestSetJsonArrayFieldWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -456,7 +456,7 @@ func TestSetJsonArrayFieldWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].(string)
 
@@ -473,7 +473,7 @@ func TestSetJsonArrayFieldWithArray(t *testing.T) {
 	jsonExample := "{\"whatever\":[[\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -496,7 +496,7 @@ func TestSetJsonArrayFieldWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -519,7 +519,7 @@ func TestSetJsonNewField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -542,7 +542,7 @@ func TestSetJsonNewField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -558,7 +558,7 @@ func TestSetJsonNewNumberField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -581,7 +581,7 @@ func TestSetJsonNewNumberField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -597,7 +597,7 @@ func TestSetJsonNewBooleanField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -620,7 +620,7 @@ func TestSetJsonNewBooleanField(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 	value, ok := result["whatever2"].(string)
 
 	if !ok {
@@ -636,7 +636,7 @@ func TestSetJsonArrayFieldIndex(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -659,7 +659,7 @@ func TestSetJsonArrayFieldIndex(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -682,7 +682,7 @@ func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
 	jsonExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -705,7 +705,7 @@ func TestSetJsonNumberArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -728,7 +728,7 @@ func TestSetJsonArrayFieldIndexOutOfBounds(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -755,7 +755,7 @@ func TestSetJsonArrayFieldAgainstObject(t *testing.T) {
 	jsonExample := "{\"whatever\":{\"hi\":\"there\"}}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -782,7 +782,7 @@ func TestSetJsonArrayFieldDoubleIndex(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -809,7 +809,7 @@ func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -832,7 +832,7 @@ func TestSetJsonArrayFieldIndexWithNumber(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -855,7 +855,7 @@ func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
 	jsonExample := "{\"whatever\":[\"hi\"]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -878,7 +878,7 @@ func TestSetJsonArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -901,7 +901,7 @@ func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
 	jsonExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -924,7 +924,7 @@ func TestSetJsonIntArrayFieldIndexWithInt(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -947,7 +947,7 @@ func TestSetJsonIntArrayFieldIndexWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":[10]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -970,7 +970,7 @@ func TestSetJsonIntArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -993,7 +993,7 @@ func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
 	jsonExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1016,7 +1016,7 @@ func TestSetJsonBoolArrayFieldIndexWithBool(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1039,7 +1039,7 @@ func TestSetJsonBoolArrayFieldIndexWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":[true]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1062,7 +1062,7 @@ func TestSetJsonBoolArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1085,7 +1085,7 @@ func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
 	jsonExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1108,7 +1108,7 @@ func TestSetJsonObjectArrayFieldIndexWithObject(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1131,7 +1131,7 @@ func TestSetJsonObjectArrayFieldIndexWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":[{\"whatever2\":\"hi\"}]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1154,7 +1154,7 @@ func TestSetJsonObjectArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1177,7 +1177,7 @@ func TestSetJsonArrayArrayFieldIndexWithArray(t *testing.T) {
 	jsonExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1200,7 +1200,7 @@ func TestSetJsonArrayArrayFieldIndexWithArray(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1223,7 +1223,7 @@ func TestSetJsonArrayArrayFieldIndexWithString(t *testing.T) {
 	jsonExample := "{\"whatever\":[[\"whatever2\",\"hi\"]]}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}
@@ -1246,7 +1246,7 @@ func TestSetJsonArrayArrayFieldIndexWithString(t *testing.T) {
 	}
 
 	var result map[string]any
-	err = json.Unmarshal([]byte(writer.Output["/etc/config.json"]), &result)
+	err = json.Unmarshal([]byte((*writer.Output)["/etc/config.json"]), &result)
 
 	value, ok := result["whatever"].([]any)
 
@@ -1269,7 +1269,7 @@ func TestSetJsonMissingNestedField(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
-		Files: map[string]string{
+		Files: &map[string]string{
 			"/etc/config.json": jsonExample,
 		},
 	}

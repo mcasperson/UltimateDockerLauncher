@@ -5,11 +5,11 @@ import (
 )
 
 type StringReader struct {
-	Files map[string]string
+	Files *map[string]string
 }
 
 func (r StringReader) ReadString(fileSpec string) (string, error) {
-	file, ok := r.Files[fileSpec]
+	file, ok := (*r.Files)[fileSpec]
 
 	if ok {
 		return file, nil
