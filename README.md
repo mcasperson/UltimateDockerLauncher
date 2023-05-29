@@ -38,7 +38,7 @@ platform.
 * `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` or `UDL_SETVALUE[/etc/myapp/config.yaml][entry2:entry3:0]` with a value of `newvalue`
 * `UDL_SETVALUE_IDENTIFIER`: This is useful when replacing values in Kubernetes, as Kubernetes only allows alphanumeric chars, the period, the underscore, and the dash in the env var name. The file name and 
    accessor are defined in the env var value e.g. a value of `[/etc/myapp/config.json][entry2:entry3]newvalue` sets the value of the property under `entry2.entry3` to `newvalue`. `IDENTIFIER` is any string 
-   with alphanumeric characters, underscores, dashes, or periods.
+   with alphanumeric characters, underscores, dashes, or periods. The `INDENTIFIER` has no meaning, and is simply used to allow unique env vars to be defined.
    
 
 ## Quick Key Reference
