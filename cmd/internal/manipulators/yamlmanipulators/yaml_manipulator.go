@@ -14,6 +14,10 @@ type YamlManipulator struct {
 	MapManipulator manipulators.MapManipulator
 }
 
+func (m YamlManipulator) GetFormatName() string {
+	return "YAML"
+}
+
 func (m YamlManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {

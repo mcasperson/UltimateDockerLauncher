@@ -13,6 +13,10 @@ type IniManipulator struct {
 	Reader readers.Reader
 }
 
+func (m IniManipulator) GetFormatName() string {
+	return "INI"
+}
+
 func (m IniManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {

@@ -14,6 +14,10 @@ type JsonManipulator struct {
 	MapManipulator manipulators.MapManipulator
 }
 
+func (m JsonManipulator) GetFormatName() string {
+	return "JSON"
+}
+
 func (m JsonManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {

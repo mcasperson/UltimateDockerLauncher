@@ -36,6 +36,10 @@ platform.
 * `UDL_WRITEFILE[FILENAME]`: Writes a file e.g. `UDL_WRITEFILE[/etc/myapp/config.json]` with a value of `{"whatever": ["hello"]}`
 * `UDL_WRITEB64FILE[FILENAME]`: Writes a base64 encoded value to a file e.g. `UDL_WRITEB64FILE[/etc/myapp/config.json]` with a value of `e3doYXRldmVyOiBbaGVsbG9dfQo=`
 * `UDL_SETVALUE[FILENAME][KEY]`: Sets a value in a config file e.g. `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` or `UDL_SETVALUE[/etc/myapp/config.yaml][entry2:entry3:0]` with a value of `newvalue`
+* `UDL_SETVALUE_IDENTIFIER`: This is useful when replacing values in Kubernetes, as Kubernetes only allows alphanumeric chars, the period, the underscore, and the dash in the env var name. The file name and 
+   accessor are defined in the env var value e.g. a value of `[/etc/myapp/config.json][entry2:entry3]newvalue` sets the value of the property under `entry2.entry3` to `newvalue`. `IDENTIFIER` is any string 
+   with alphanumeric characters, underscores, dashes, or periods.
+   
 
 ## Quick Key Reference
 
@@ -151,9 +155,12 @@ For example, given a JSON file like this at `/etc/myapp/config.json`:
 }
 ```
 
-* `UDL_SETVALUE[/etc/myapp/config.json][entry1]` replaces `value1`
-* `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` replaces `value2`
-* `UDL_SETVALUE[/etc/myapp/config.json][entry4:1]` replaces `value4`
+* `UDL_SETVALUE[/etc/myapp/config.json][entry1]` set to `newvalue` replaces `value1` with `newvalue`
+* `UDL_SETVALUE[/etc/myapp/config.json][entry2:entry3]` set to `newvalue` replaces `value2` with `newvalue`
+* `UDL_SETVALUE[/etc/myapp/config.json][entry4:1]` set to `newvalue` replaces `value4` with `newvalue`
+* `UDL_SETVALUE_1` with a value of `[/etc/myapp/config.json][entry1]newvalue` replaces `value1` with `newvalue`
+* `UDL_SETVALUE_WHATEVER` with a value of `[/etc/myapp/config.json][entry2:entry3]newvalue` replaces `value2` with `newvalue`
+* `UDL_SETVALUE_ANY_STRING-WITH.ALPHA_NUMERIC.CHARS-DASHES_OR.UNDERSCORES` with a value of `[/etc/myapp/config.json][entry4:1]newvalue` replaces `value4` with `newvalue`
 
 ## Type retention
 

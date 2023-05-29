@@ -45,6 +45,16 @@ func main() {
 			},
 		},
 	}
+	var jsonManipluatorTwo envscanners.EnvScanner = envscanners.ManipulatorEnvScannerTwo{
+		Env: envprovider,
+		Manipulator: jsonmanipulators.JsonManipulator{
+			Writer: writer,
+			Reader: reader,
+			MapManipulator: manipulators.CommonMapManipulator{
+				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+			},
+		},
+	}
 	var yamlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
 		Env: envprovider,
 		Manipulator: yamlmanipulators.YamlManipulator{
@@ -86,6 +96,12 @@ func main() {
 	}
 
 	err = jsonManipluator.ProcessEnvVars()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	err = jsonManipluatorTwo.ProcessEnvVars()
 
 	if err != nil {
 		panic(err.Error())

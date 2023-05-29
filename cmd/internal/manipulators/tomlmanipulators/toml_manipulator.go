@@ -14,6 +14,10 @@ type TomlManipulator struct {
 	MapManipulator manipulators.MapManipulator
 }
 
+func (m TomlManipulator) GetFormatName() string {
+	return "TOML"
+}
+
 func (m TomlManipulator) CanManipulate(fileSpec string) bool {
 	content, err := m.Reader.ReadString(fileSpec)
 	if err != nil {
