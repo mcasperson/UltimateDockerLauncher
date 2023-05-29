@@ -64,16 +64,16 @@ func (f ManipulatorEnvScanner) ProcessEnvVars() error {
 			value := f.Env.GetEnvVar(key)
 			file, path := f.getFilePath(key)
 
-			log.Debug().Msg("Attempting to parse " + file + " as JSON and modify value at " + path)
+			log.Debug().Msg("Attempting to parse " + file + " as " + f.Manipulator.GetFormatName() + " and modify value at " + path)
 
 			if f.Manipulator.CanManipulate(file) {
-				log.Debug().Msg("Successfully parsed " + file + " as JSON")
+				log.Debug().Msg("Successfully parsed " + file + " as " + f.Manipulator.GetFormatName())
 				err := f.Manipulator.SetValue(file, path, value)
 				if err != nil {
 					return err
 				}
 			} else {
-				log.Debug().Msg("Could not parse " + file + " as JSON")
+				log.Debug().Msg("Could not parse " + file + " as " + f.Manipulator.GetFormatName())
 			}
 
 		}

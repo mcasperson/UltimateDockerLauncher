@@ -31,97 +31,100 @@ func main() {
 	var executor executors.Executor = executors.ExecuteAndWait{}
 	var writer writers.Writer = writers.FileWriter{}
 	var reader readers.Reader = readers.FileReader{}
-	var writeFileScanner envscanners.EnvScanner = envscanners.FileWriterEnvScanner{
-		Writer: writer,
-		Env:    envprovider,
-	}
-	var jsonManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
-		Env: envprovider,
-		Manipulator: jsonmanipulators.JsonManipulator{
+
+	scanners := []envscanners.EnvScanner{
+
+		envscanners.FileWriterEnvScanner{
 			Writer: writer,
-			Reader: reader,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+			Env:    envprovider,
+		},
+
+		envscanners.ManipulatorEnvScanner{
+			Env: envprovider,
+			Manipulator: inimanipulators.IniManipulator{
+				Writer: writer,
+				Reader: reader,
+			},
+		},
+
+		envscanners.ManipulatorEnvScanner{
+			Env: envprovider,
+			Manipulator: jsonmanipulators.JsonManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
+			},
+		},
+
+		envscanners.ManipulatorEnvScannerTwo{
+			Env: envprovider,
+			Manipulator: jsonmanipulators.JsonManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
+			},
+		},
+
+		envscanners.ManipulatorEnvScanner{
+			Env: envprovider,
+			Manipulator: yamlmanipulators.YamlManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
+				},
+			},
+		},
+
+		envscanners.ManipulatorEnvScannerTwo{
+			Env: envprovider,
+			Manipulator: yamlmanipulators.YamlManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
+				},
+			},
+		},
+
+		envscanners.ManipulatorEnvScanner{
+			Env: envprovider,
+			Manipulator: tomlmanipulators.TomlManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
+				},
+			},
+		},
+
+		envscanners.ManipulatorEnvScannerTwo{
+			Env: envprovider,
+			Manipulator: tomlmanipulators.TomlManipulator{
+				Writer: writer,
+				Reader: reader,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
+				},
 			},
 		},
 	}
-	var jsonManipluatorTwo envscanners.EnvScanner = envscanners.ManipulatorEnvScannerTwo{
-		Env: envprovider,
-		Manipulator: jsonmanipulators.JsonManipulator{
-			Writer: writer,
-			Reader: reader,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
-			},
-		},
-	}
-	var yamlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
-		Env: envprovider,
-		Manipulator: yamlmanipulators.YamlManipulator{
-			Writer: writer,
-			Reader: reader,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
-			},
-		},
-	}
-	var tomlManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
-		Env: envprovider,
-		Manipulator: tomlmanipulators.TomlManipulator{
-			Writer: writer,
-			Reader: reader,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
-			},
-		},
-	}
-	var iniManipluator envscanners.EnvScanner = envscanners.ManipulatorEnvScanner{
-		Env: envprovider,
-		Manipulator: inimanipulators.IniManipulator{
-			Writer: writer,
-			Reader: reader,
-		},
-	}
 
-	err := writeFileScanner.ProcessEnvVars()
+	for _, scanner := range scanners {
+		err := scanner.ProcessEnvVars()
 
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = iniManipluator.ProcessEnvVars()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = jsonManipluator.ProcessEnvVars()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = jsonManipluatorTwo.ProcessEnvVars()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = yamlManipluator.ProcessEnvVars()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
-	err = tomlManipluator.ProcessEnvVars()
-
-	if err != nil {
-		panic(err.Error())
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 	// wrap a call to an external executable if supplied
 	if argparser.HasExecutable() {
-		err = executor.Execute(argparser.GetExecutable(), argparser.GetArguments())
+		err := executor.Execute(argparser.GetExecutable(), argparser.GetArguments())
 		if exitCode := executor.ExitCode(err); exitCode != 0 {
 			os.Exit(exitCode)
 		}
