@@ -32,6 +32,35 @@ func main() {
 	var writer writers.Writer = writers.FileWriter{}
 	var reader readers.Reader = readers.FileReader{}
 
+	iniManipulator := inimanipulators.IniManipulator{
+		Writer: writer,
+		Reader: reader,
+	}
+
+	jsonManipulator := jsonmanipulators.JsonManipulator{
+		Writer: writer,
+		Reader: reader,
+		MapManipulator: manipulators.CommonMapManipulator{
+			Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+		},
+	}
+
+	yamlManipulator := yamlmanipulators.YamlManipulator{
+		Writer: writer,
+		Reader: reader,
+		MapManipulator: manipulators.CommonMapManipulator{
+			Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
+		},
+	}
+
+	tomlManipulator := tomlmanipulators.TomlManipulator{
+		Writer: writer,
+		Reader: reader,
+		MapManipulator: manipulators.CommonMapManipulator{
+			Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
+		},
+	}
+
 	scanners := []envscanners.EnvScanner{
 
 		envscanners.FileWriterEnvScanner{
@@ -41,75 +70,21 @@ func main() {
 
 		envscanners.ManipulatorEnvScanner{
 			Env: envprovider,
-			Manipulator: inimanipulators.IniManipulator{
-				Writer: writer,
-				Reader: reader,
-			},
-		},
-
-		envscanners.ManipulatorEnvScanner{
-			Env: envprovider,
-			Manipulator: jsonmanipulators.JsonManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
-				},
+			Manipulator: []manipulators.Manipulator{
+				iniManipulator,
+				jsonManipulator,
+				yamlManipulator,
+				tomlManipulator,
 			},
 		},
 
 		envscanners.ManipulatorEnvScannerTwo{
 			Env: envprovider,
-			Manipulator: jsonmanipulators.JsonManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
-				},
-			},
-		},
-
-		envscanners.ManipulatorEnvScanner{
-			Env: envprovider,
-			Manipulator: yamlmanipulators.YamlManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
-				},
-			},
-		},
-
-		envscanners.ManipulatorEnvScannerTwo{
-			Env: envprovider,
-			Manipulator: yamlmanipulators.YamlManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: yamlmanipulators.YamlUnmarshaller{},
-				},
-			},
-		},
-
-		envscanners.ManipulatorEnvScanner{
-			Env: envprovider,
-			Manipulator: tomlmanipulators.TomlManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
-				},
-			},
-		},
-
-		envscanners.ManipulatorEnvScannerTwo{
-			Env: envprovider,
-			Manipulator: tomlmanipulators.TomlManipulator{
-				Writer: writer,
-				Reader: reader,
-				MapManipulator: manipulators.CommonMapManipulator{
-					Unmarshaller: tomlmanipulators.TomlUnmarshaller{},
-				},
+			Manipulator: []manipulators.Manipulator{
+				iniManipulator,
+				jsonManipulator,
+				yamlManipulator,
+				tomlManipulator,
 			},
 		},
 	}

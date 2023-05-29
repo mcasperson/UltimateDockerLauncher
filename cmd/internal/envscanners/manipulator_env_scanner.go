@@ -12,7 +12,7 @@ import (
 
 type ManipulatorEnvScanner struct {
 	Env         envproviders.EnvironmentProvider
-	Manipulator manipulators.Manipulator
+	Manipulator []manipulators.Manipulator
 }
 
 func (f ManipulatorEnvScanner) getFilePath(key string) (string, string) {
@@ -64,18 +64,20 @@ func (f ManipulatorEnvScanner) ProcessEnvVars() error {
 			value := f.Env.GetEnvVar(key)
 			file, path := f.getFilePath(key)
 
-			log.Debug().Msg("Attempting to parse " + file + " as " + f.Manipulator.GetFormatName() + " and modify value at " + path)
+			for _, manipulator := range f.Manipulator {
 
-			if f.Manipulator.CanManipulate(file) {
-				log.Debug().Msg("Successfully parsed " + file + " as " + f.Manipulator.GetFormatName())
-				err := f.Manipulator.SetValue(file, path, value)
-				if err != nil {
-					return err
+				log.Debug().Msg("Attempting to parse " + file + " as " + manipulator.GetFormatName() + " and modify value at " + path)
+
+				if manipulator.CanManipulate(file) {
+					log.Debug().Msg("Successfully parsed " + file + " as " + manipulator.GetFormatName())
+					err := manipulator.SetValue(file, path, value)
+					if err != nil {
+						return err
+					}
+				} else {
+					log.Debug().Msg("Could not parse " + file + " as " + manipulator.GetFormatName())
 				}
-			} else {
-				log.Debug().Msg("Could not parse " + file + " as " + f.Manipulator.GetFormatName())
 			}
-
 		}
 	}
 
