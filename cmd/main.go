@@ -68,6 +68,21 @@ func main() {
 			Env:    envprovider,
 		},
 
+		envscanners.FileB64WriterEnvScanner{
+			Writer: writer,
+			Env:    envprovider,
+		},
+
+		envscanners.FileWriterEnvScannerTwo{
+			Writer: writer,
+			Env:    envprovider,
+		},
+
+		envscanners.FileB64WriterEnvScannerTwo{
+			Writer: writer,
+			Env:    envprovider,
+		},
+
 		envscanners.ManipulatorEnvScanner{
 			Env: envprovider,
 			Manipulator: []manipulators.Manipulator{
