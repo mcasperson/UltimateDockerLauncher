@@ -25,11 +25,13 @@ func TestJsonManipulation(t *testing.T) {
 				"UDL_SETVALUE[/tmp/myapp/config.json][whatever]": "world",
 			},
 		},
-		Manipulator: jsonmanipulators.JsonManipulator{
-			Reader: reader,
-			Writer: &writer,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+		Manipulator: []manipulators.Manipulator{
+			jsonmanipulators.JsonManipulator{
+				Reader: reader,
+				Writer: &writer,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
 			},
 		},
 	}
@@ -84,11 +86,13 @@ func TestMultipleJsonManipulation(t *testing.T) {
 				"UDL_SETVALUE[/tmp/myapp/config.json][whatever:3]": "8",
 			},
 		},
-		Manipulator: jsonmanipulators.JsonManipulator{
-			Reader: reader,
-			Writer: &writer,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+		Manipulator: []manipulators.Manipulator{
+			jsonmanipulators.JsonManipulator{
+				Reader: reader,
+				Writer: &writer,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
 			},
 		},
 	}
