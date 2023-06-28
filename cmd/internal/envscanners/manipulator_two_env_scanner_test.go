@@ -25,11 +25,13 @@ func TestJsonManipulationTwo(t *testing.T) {
 				"UDL_SETVALUE_ANY_STRING-WITH.ALPHA_NUMERIC.CHARS-DASHES_OR.UNDERSCORES": "[/tmp/myapp/config.json][whatever]world",
 			},
 		},
-		Manipulator: jsonmanipulators.JsonManipulator{
-			Reader: reader,
-			Writer: &writer,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+		Manipulator: []manipulators.Manipulator{
+			jsonmanipulators.JsonManipulator{
+				Reader: reader,
+				Writer: &writer,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
 			},
 		},
 	}
@@ -84,11 +86,13 @@ func TestMultipleJsonManipulationTwo(t *testing.T) {
 				"UDL_SETVALUE_5": "[/tmp/myapp/config.json][whatever:3]8",
 			},
 		},
-		Manipulator: jsonmanipulators.JsonManipulator{
-			Reader: reader,
-			Writer: &writer,
-			MapManipulator: manipulators.CommonMapManipulator{
-				Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+		Manipulator: []manipulators.Manipulator{
+			jsonmanipulators.JsonManipulator{
+				Reader: reader,
+				Writer: &writer,
+				MapManipulator: manipulators.CommonMapManipulator{
+					Unmarshaller: jsonmanipulators.JsonUnmarshaller{},
+				},
 			},
 		},
 	}
