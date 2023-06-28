@@ -24,10 +24,16 @@ func (f FileB64WriterEnvScannerTwo) ProcessEnvVars() error {
 
 			if strings.HasPrefix(key, "UDL_WRITEB64FILE_") {
 				file, encodedContents, err := f.getFilePath(value)
-				contents, err := b64.StdEncoding.DecodeString(encodedContents)
 
 				if err != nil {
 					return err
+				}
+
+				contents, err := b64.StdEncoding.DecodeString(encodedContents)
+
+				if err != nil {
+					log.Error().Msg(encodedContents + " is not a valid base64 encoded string. This operation is ignored.")
+					return nil
 				}
 
 				log.Debug().Msg("Writing file \"" + file + "\" with content:")

@@ -25,7 +25,8 @@ func (f FileB64WriterEnvScanner) ProcessEnvVars() error {
 				contents, err := b64.StdEncoding.DecodeString(value)
 
 				if err != nil {
-					return err
+					log.Error().Msg(value + " is not a valid base64 encoded string. This operation is ignored.")
+					return nil
 				}
 
 				log.Debug().Msg("Writing file \"" + file + "\" with content:")
