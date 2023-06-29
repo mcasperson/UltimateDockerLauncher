@@ -16,7 +16,7 @@ import (
 	"os"
 )
 
-func main() {
+func setLogging() {
 	loggingLevel := os.Getenv("UDL_LOGGING_LEVEL")
 	if loggingLevel != "" {
 		level, err := zerolog.ParseLevel(loggingLevel)
@@ -25,10 +25,11 @@ func main() {
 			zerolog.SetGlobalLevel(level)
 		}
 	}
+}
 
+func doScanning() error {
 	var envprovider envproviders.EnvironmentProvider = envproviders.EnvVarProvider{}
-	var argparser argparsers.ArgParser = argparsers.SimpleArgParser{}
-	var executor executors.Executor = executors.ExecuteAndWait{}
+
 	var writer writers.Writer = writers.FileWriter{}
 	var reader readers.Reader = readers.FileReader{}
 
@@ -108,9 +109,16 @@ func main() {
 		err := scanner.ProcessEnvVars()
 
 		if err != nil {
-			panic(err.Error())
+			return err
 		}
 	}
+
+	return nil
+}
+
+func systemExit() {
+	var argparser argparsers.ArgParser = argparsers.SimpleArgParser{}
+	var executor executors.Executor = executors.ExecuteAndWait{}
 
 	// wrap a call to an external executable if supplied
 	if argparser.HasExecutable() {
@@ -119,4 +127,15 @@ func main() {
 			os.Exit(exitCode)
 		}
 	}
+}
+
+func main() {
+	setLogging()
+	err := doScanning()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	systemExit()
 }
