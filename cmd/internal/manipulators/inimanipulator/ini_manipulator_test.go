@@ -8,11 +8,11 @@ import (
 )
 
 func TestInvalidFile(t *testing.T) {
-	jsonExample := "whatever = value"
+	iniExample := "whatever = value"
 	writer := writers.StringWriter{}
 	reader := readers.StringReader{
 		Files: &map[string]string{
-			"/etc/config.ini": jsonExample,
+			"/etc/config.ini": iniExample,
 		},
 	}
 	manipulator := IniManipulator{
