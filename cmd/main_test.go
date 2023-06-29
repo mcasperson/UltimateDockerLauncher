@@ -80,6 +80,31 @@ func TestMainToml(t *testing.T) {
 	}
 }
 
+func TestMainTomlTwo(t *testing.T) {
+	tomlExample := "whatever = 'value'"
+	tomlExampleExample := "whatever = '5'"
+
+	file, err := os.CreateTemp("", "file*.toml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", tomlExample)
+	t.Setenv("UDL_SETVALUE_1", "["+file.Name()+"][whatever]5")
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	contentsString := strings.TrimSpace(string(contents))
+	if contentsString != tomlExampleExample {
+		t.Fatal("File contents should have matched. Was " + contentsString + " expected " + tomlExampleExample)
+	}
+}
+
 func TestMainYaml(t *testing.T) {
 	yamlExample := "whatever: \"value\""
 	yamlExampleProcessed := "whatever: \"5\""
@@ -105,6 +130,31 @@ func TestMainYaml(t *testing.T) {
 	}
 }
 
+func TestMainYamlTwo(t *testing.T) {
+	yamlExample := "whatever: \"value\""
+	yamlExampleProcessed := "whatever: \"5\""
+
+	file, err := os.CreateTemp("", "file*.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", yamlExample)
+	t.Setenv("UDL_SETVALUE_1", "["+file.Name()+"][whatever]5")
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	contentsString := strings.TrimSpace(string(contents))
+	if contentsString != yamlExampleProcessed {
+		t.Fatal("File contents should have matched. Was " + contentsString + " expected " + yamlExampleProcessed)
+	}
+}
+
 func TestMainIni(t *testing.T) {
 	iniExample := "whatever = value"
 	iniExampleProcessed := "whatever = 5"
@@ -117,6 +167,31 @@ func TestMainIni(t *testing.T) {
 
 	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", iniExample)
 	t.Setenv("UDL_SETVALUE["+file.Name()+"][whatever]", "5")
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	contentsString := strings.TrimSpace(string(contents))
+	if contentsString != iniExampleProcessed {
+		t.Fatal("File contents should have matched. Was " + contentsString + " expected " + iniExampleProcessed)
+	}
+}
+
+func TestMainIniTwo(t *testing.T) {
+	iniExample := "whatever = value"
+	iniExampleProcessed := "whatever = 5"
+
+	file, err := os.CreateTemp("", "file*.ini")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", iniExample)
+	t.Setenv("UDL_SETVALUE_1", "["+file.Name()+"][whatever]5")
 	err = doScanning()
 
 	if err != nil {
