@@ -6,7 +6,7 @@ type SimpleArgParser struct {
 }
 
 func (a SimpleArgParser) HasExecutable() bool {
-	return len(os.Args) > 1
+	return len(os.Args) > 1 && os.Getenv("UDL_RUNNING_TEST") != "true"
 }
 
 func (a SimpleArgParser) GetExecutable() string {

@@ -7,6 +7,34 @@ import (
 	"testing"
 )
 
+func TestMainFunc(t *testing.T) {
+	jsonExample := "{\"whatever\":\"value\"}"
+	jsonProcessedExample := "{\"whatever\":\"5\"}"
+
+	file, err := os.CreateTemp("", "file*.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	// This is required to let the app know we are not trying to execute anything based on the passed argyuments
+	t.Setenv("UDL_RUNNING_TEST", "true")
+	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", jsonExample)
+	t.Setenv("UDL_SETVALUE["+file.Name()+"][whatever]", "5")
+
+	// Test the main function
+	main()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	if string(contents) != jsonProcessedExample {
+		t.Fatal("File contents should have matched")
+	}
+}
+
 func TestMainJson(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	jsonProcessedExample := "{\"whatever\":\"5\"}"
