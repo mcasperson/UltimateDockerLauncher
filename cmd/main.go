@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/argparsers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envscanners"
@@ -13,6 +14,7 @@ import (
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/readers"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/rs/zerolog"
+	"io/fs"
 	"os"
 )
 
@@ -134,7 +136,18 @@ func main() {
 	err := doScanning()
 
 	if err != nil {
-		panic(err.Error())
+
+		var pathError *fs.PathError
+		if errors.As(err, &pathError) {
+			panic("Operation " + pathError.Op +
+				" failed at path \"" + pathError.Path + "\"" +
+				" with error \"" + pathError.Err.Error() + "\"." +
+				" This is usually a permission error. Make sure the Docker user has permission to this path.")
+
+		} else {
+			panic(err.Error())
+		}
+
 	}
 
 	systemExit()
