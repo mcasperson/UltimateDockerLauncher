@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/argparsers"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/customerror"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envscanners"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/executors"
@@ -137,13 +138,16 @@ func main() {
 
 	if err != nil {
 
-		var pathError *fs.PathError
-		if errors.As(err, &pathError) {
-			panic("Operation " + pathError.Op +
-				" failed at path \"" + pathError.Path + "\"" +
-				" with error \"" + pathError.Err.Error() + "\"." +
-				" This is usually a permission error. Make sure the Docker user has permission to this path.")
-
+		var customError *customerror.UdlError
+		if errors.As(err, &customError) {
+			var pathError *fs.PathError
+			if errors.As(customError.Err, &pathError) {
+				panic("Environment variable \"" + customError.EnvVar + "\"" +
+					" ran operation \"" + pathError.Op + "\"" +
+					" that failed at path \"" + pathError.Path + "\"" +
+					" with error \"" + pathError.Err.Error() + "\"." +
+					" This is usually a permission error. Make sure the Docker user has permission to this path.")
+			}
 		} else {
 			panic(err.Error())
 		}

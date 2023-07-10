@@ -1,6 +1,7 @@
 package envscanners
 
 import (
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/customerror"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/rs/zerolog/log"
@@ -28,7 +29,10 @@ func (f FileWriterEnvScanner) ProcessEnvVars() error {
 				err := f.Writer.WriteString(file, value)
 
 				if err != nil {
-					return err
+					return &customerror.UdlError{
+						EnvVar: key,
+						Err:    err,
+					}
 				}
 			}
 		}
