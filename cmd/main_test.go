@@ -371,3 +371,49 @@ func TestMainBase64Two(t *testing.T) {
 		t.Fatal("File contents should have matched")
 	}
 }
+
+func TestMainBase64WithProefix(t *testing.T) {
+	jsonExample := "{\"whatever\":\"value\"}"
+	jsonExampleEncoded := b64.StdEncoding.EncodeToString([]byte(jsonExample))
+
+	file, err := os.CreateTemp("", "file.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_WRITEB64FILE["+file.Name()+"]", jsonExampleEncoded)
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	if string(contents) != jsonExample {
+		t.Fatal("File contents should have matched")
+	}
+}
+
+func TestMainBase64WithPrefixTwo(t *testing.T) {
+	jsonExample := "{\"whatever\":\"value\"}"
+	jsonExampleEncoded := b64.StdEncoding.EncodeToString([]byte(jsonExample))
+
+	file, err := os.CreateTemp("", "file.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_WRITEB64FILE_1", "["+file.Name()+"]"+jsonExampleEncoded)
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	if string(contents) != jsonExample {
+		t.Fatal("File contents should have matched")
+	}
+}
