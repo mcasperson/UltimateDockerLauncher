@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/manipulators"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/prefixes"
 	"github.com/rs/zerolog/log"
 	"regexp"
 	"sort"
@@ -41,20 +42,23 @@ func (f ManipulatorEnvScannerTwo) getVars() ([]int, map[int][]string) {
 			key := e[:i]
 			value := e[i-1:]
 
-			if match, _ := regexp.MatchString("UDL_SETVALUE_[-._a-zA-Z0-9]+", key); !match {
-				continue
-			}
+			for _, p := range prefixes.EnvVarPrefixes {
 
-			_, accessor, _, err := f.getFilePath(value)
-
-			if err == nil {
-				splitPath := strings.Split(accessor, ":")
-				if _, ok := orderedVars[len(splitPath)]; !ok {
-					orderedVars[len(splitPath)] = []string{}
-					orderedVarsKeys = append(orderedVarsKeys, len(splitPath))
+				if match, _ := regexp.MatchString(p+"UDL_SETVALUE_[-._a-zA-Z0-9]+", key); !match {
+					continue
 				}
 
-				orderedVars[len(splitPath)] = append(orderedVars[len(splitPath)], key)
+				_, accessor, _, err := f.getFilePath(value)
+
+				if err == nil {
+					splitPath := strings.Split(accessor, ":")
+					if _, ok := orderedVars[len(splitPath)]; !ok {
+						orderedVars[len(splitPath)] = []string{}
+						orderedVarsKeys = append(orderedVarsKeys, len(splitPath))
+					}
+
+					orderedVars[len(splitPath)] = append(orderedVars[len(splitPath)], key)
+				}
 			}
 		}
 	}

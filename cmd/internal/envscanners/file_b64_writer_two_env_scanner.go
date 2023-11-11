@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/customerror"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/prefixes"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/rs/zerolog/log"
 	"regexp"
@@ -23,29 +24,31 @@ func (f FileB64WriterEnvScannerTwo) ProcessEnvVars() error {
 			key := e[:i]
 			value := e[i+1:]
 
-			if strings.HasPrefix(key, "UDL_WRITEB64FILE_") {
-				file, encodedContents, err := f.getFilePath(value)
+			for _, p := range prefixes.EnvVarPrefixes {
+				if strings.HasPrefix(key, p+"UDL_WRITEB64FILE_") {
+					file, encodedContents, err := f.getFilePath(value)
 
-				if err != nil {
-					return err
-				}
+					if err != nil {
+						return err
+					}
 
-				contents, err := b64.StdEncoding.DecodeString(encodedContents)
+					contents, err := b64.StdEncoding.DecodeString(encodedContents)
 
-				if err != nil {
-					log.Error().Msg(encodedContents + " is not a valid base64 encoded string. This operation is ignored.")
-					return nil
-				}
+					if err != nil {
+						log.Error().Msg(encodedContents + " is not a valid base64 encoded string. This operation is ignored.")
+						return nil
+					}
 
-				log.Debug().Msg("Writing file \"" + file + "\" with content:")
-				log.Debug().Msg(string(contents))
+					log.Debug().Msg("Writing file \"" + file + "\" with content:")
+					log.Debug().Msg(string(contents))
 
-				err = f.Writer.WriteString(file, string(contents))
+					err = f.Writer.WriteString(file, string(contents))
 
-				if err != nil {
-					return &customerror.UdlError{
-						EnvVar: key,
-						Err:    err,
+					if err != nil {
+						return &customerror.UdlError{
+							EnvVar: key,
+							Err:    err,
+						}
 					}
 				}
 			}

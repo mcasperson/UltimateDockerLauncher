@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/customerror"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/envproviders"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/prefixes"
 	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/writers"
 	"github.com/rs/zerolog/log"
 	"regexp"
@@ -22,22 +23,24 @@ func (f FileWriterEnvScannerTwo) ProcessEnvVars() error {
 			key := e[:i]
 			value := e[i+1:]
 
-			if strings.HasPrefix(key, "UDL_WRITEFILE_") {
-				file, contents, err := f.getFilePath(value)
+			for _, p := range prefixes.EnvVarPrefixes {
+				if strings.HasPrefix(key, p+"UDL_WRITEFILE_") {
+					file, contents, err := f.getFilePath(value)
 
-				if err != nil {
-					return err
-				}
+					if err != nil {
+						return err
+					}
 
-				log.Debug().Msg("Writing file \"" + file + "\" with content:")
-				log.Debug().Msg(contents)
+					log.Debug().Msg("Writing file \"" + file + "\" with content:")
+					log.Debug().Msg(contents)
 
-				err = f.Writer.WriteString(file, contents)
+					err = f.Writer.WriteString(file, contents)
 
-				if err != nil {
-					return &customerror.UdlError{
-						EnvVar: key,
-						Err:    err,
+					if err != nil {
+						return &customerror.UdlError{
+							EnvVar: key,
+							Err:    err,
+						}
 					}
 				}
 			}

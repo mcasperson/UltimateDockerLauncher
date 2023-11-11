@@ -2,6 +2,7 @@ package main
 
 import (
 	b64 "encoding/base64"
+	"github.com/mcasperson/UltimateDockerLauncher/cmd/internal/prefixes"
 	"os"
 	"strings"
 	"testing"
@@ -59,6 +60,30 @@ func TestMainJson(t *testing.T) {
 	}
 }
 
+func TestMainJsonWithPrefix(t *testing.T) {
+	jsonExample := "{\"whatever\":\"value\"}"
+	jsonProcessedExample := "{\"whatever\":\"5\"}"
+
+	file, err := os.CreateTemp("", "file*.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_WRITEFILE["+file.Name()+"]", jsonExample)
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_SETVALUE["+file.Name()+"][whatever]", "5")
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	if string(contents) != jsonProcessedExample {
+		t.Fatal("File contents should have matched")
+	}
+}
+
 func TestMainJsonTwo(t *testing.T) {
 	jsonExample := "{\"whatever\":\"value\"}"
 	jsonProcessedExample := "{\"whatever\":\"5\"}"
@@ -71,6 +96,30 @@ func TestMainJsonTwo(t *testing.T) {
 
 	t.Setenv("UDL_WRITEFILE["+file.Name()+"]", jsonExample)
 	t.Setenv("UDL_SETVALUE_1", "["+file.Name()+"][whatever]5")
+	err = doScanning()
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	contents, err := os.ReadFile(file.Name())
+	if string(contents) != jsonProcessedExample {
+		t.Fatal("File contents should have matched")
+	}
+}
+
+func TestMainJsonWithPrefixTwo(t *testing.T) {
+	jsonExample := "{\"whatever\":\"value\"}"
+	jsonProcessedExample := "{\"whatever\":\"5\"}"
+
+	file, err := os.CreateTemp("", "file*.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(file.Name())
+
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_WRITEFILE["+file.Name()+"]", jsonExample)
+	t.Setenv(prefixes.EnvVarPrefixes[0]+"UDL_SETVALUE_1", "["+file.Name()+"][whatever]5")
 	err = doScanning()
 
 	if err != nil {
