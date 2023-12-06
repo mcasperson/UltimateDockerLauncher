@@ -34,7 +34,7 @@ func (m CommonMapManipulator) ProcessMap(result map[string]any, valueSpec string
 
 			array := current.([]any)
 
-			if int64(len(array)) < index {
+			if int64(len(array)) <= index {
 				return nil, errors.New("integer indexes must be within the existing array's bounds (array has " + fmt.Sprint(len(array)) + " elements, index was " + fmt.Sprint(index) + ")")
 			}
 
