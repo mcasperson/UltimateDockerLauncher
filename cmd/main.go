@@ -106,6 +106,26 @@ func doScanning() error {
 				tomlManipulator,
 			},
 		},
+
+		envscanners.ManipulatorSkipEmptyEnvScanner{
+			Env: envprovider,
+			Manipulator: []manipulators.Manipulator{
+				iniManipulator,
+				jsonManipulator,
+				yamlManipulator,
+				tomlManipulator,
+			},
+		},
+
+		envscanners.ManipulatorSkipEmptyEnvScannerTwo{
+			Env: envprovider,
+			Manipulator: []manipulators.Manipulator{
+				iniManipulator,
+				jsonManipulator,
+				yamlManipulator,
+				tomlManipulator,
+			},
+		},
 	}
 
 	for _, scanner := range scanners {
