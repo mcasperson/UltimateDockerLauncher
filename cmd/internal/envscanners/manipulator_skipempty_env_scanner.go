@@ -84,6 +84,7 @@ func (f ManipulatorSkipEmptyEnvScanner) ProcessEnvVars() error {
 					if err != nil {
 						return err
 					}
+					break
 				} else {
 					log.Debug().Msg("Could not parse " + file + " as " + manipulator.GetFormatName())
 				}
