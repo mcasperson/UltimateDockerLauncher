@@ -253,3 +253,29 @@ The env var `UDL_SETVALUE[/etc/myapp/config.json][entry4]` with a value of `["va
     "entry4": ["value6", "value7"]
 }
 ```
+
+## Standalone Docker Image
+
+UDL is distributed as a standalone Docker image called `ghcr.io/mcasperson/udl`.
+
+To test the image, create a file called `/tmp/test.json` with the following contents:
+
+```json
+{
+"item1": "hi"
+}
+```
+
+Then run the following command:
+
+```bash
+docker run -v /tmp/test.json:/data/test.json:Z -e UDL_SETVALUE[/data/test.json][item1]="updated" -it ghcr.io/mcasperson/udl
+```
+
+The contents of `/tmp/test.json` will be:
+
+```json
+{
+"item1": "updated"
+}
+```
