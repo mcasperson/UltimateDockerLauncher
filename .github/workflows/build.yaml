@@ -2,6 +2,7 @@ permissions:
   id-token: write
   contents: write
   checks: write
+  packages: write
 
 name: Go Build
 'on':
@@ -17,7 +18,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.17
+          go-version: ^1.22
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.15
         with:
@@ -31,6 +32,22 @@ jobs:
         uses: OctopusDeploy/install-octopus-cli-action@v1
         with:
           version: latest
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push latest Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: gchr.io/mcasperson/udl:latest
+      - name: Build and push versioned Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: gchr.io/mcasperson/udl:${{ steps.determine_version.outputs.semVer }}+run${{ github.run_number }}-attempt${{ github.run_attempt }}
       - name: Install Dependencies
         run: go get ./...
         shell: bash
