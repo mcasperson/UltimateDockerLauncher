@@ -100,9 +100,6 @@ jobs:
         with:
           github_token: ${{ github.token }}
           branch: ${{ github.head_ref }}
-      - run: go build -o udl cmd/main.go
-        env:
-          CGO_ENABLED: 0
       - id: create_release
         name: Create Release
         uses: actions/create-release@v1
@@ -113,6 +110,16 @@ jobs:
           release_name: Release ${{ steps.determine_version.outputs.semVer }} Run ${{ github.run_number }} Attempt ${{ github.run_attempt }}
           draft: 'false'
           prerelease: 'false'
+      - run: go build -o udl cmd/main.go
+        env:
+          GOOS: linux
+          GOARCH: amd64
+          CGO_ENABLED: 0
+      - run: go build -o udl_linux_arm64 cmd/main.go
+        env:
+          GOOS: linux
+          GOARCH: arm64
+          CGO_ENABLED: 0
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
@@ -121,4 +128,13 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: udl
           asset_name: udl
+          asset_content_type: application/octet-stream
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: udl_linux_arm64
+          asset_name: udl_linux_arm64
           asset_content_type: application/octet-stream
